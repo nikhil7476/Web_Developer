@@ -17,11 +17,12 @@ async function connectDB() {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
-      .then((mongoose) => mongoose);
+      .connect(MONGODB_URI) // ❌ removed deprecated options
+      .then((mongoose) => mongoose)
+      .catch((err) => {
+        console.error("MongoDB connection error:", err);
+        throw err;
+      });
   }
 
   cached.conn = await cached.promise;
