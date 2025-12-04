@@ -4,7 +4,7 @@ const nextConfig = {
   reactCompiler: true,
   reactStrictMode: true,
   images: {
-    domains: ["ikken.vercel.app", "www.nextupgrad.us"],
+    domains: ["niktech-portfolio.vercel.app"],
   },
 };
 
