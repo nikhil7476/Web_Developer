@@ -4,7 +4,7 @@ import { Col, Container, Row } from "react-bootstrap";
 function Footer() {
   return (
     <>
-      <section className="p-3" style={{ background: "#212529" }}>
+      <section className="p-2 mt-3" style={{ background: "#212529" }}>
         <Container>
           <Row>
             <Col>

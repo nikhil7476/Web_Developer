@@ -152,7 +152,7 @@ export default function BlogForm() {
   };
 
   return (
-    <Container className="mt-4">
+    <Container>
       <Form onSubmit={handleSubmit}>
         <Row>
           <Col md={4} className="mb-2">

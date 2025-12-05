@@ -20,7 +20,7 @@ export default function Topbar({ onLogout }) {
   };
 
   return (
-    <header className="adminNavbar">
+    <header className="adminNavbar fixed-top">
       <div className="left">
         <FiMenu
           size={26}

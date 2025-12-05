@@ -149,12 +149,12 @@ export default function BlogList() {
   };
 
   return (
-    <section>
+    <>
       <Container>
         {loading ? (
           <p className="text-center">Loading blogs...</p>
         ) : (
-          <Table striped bordered hover responsive className="mt-3">
+          <Table striped bordered hover responsive>
             <thead>
               <tr>
                 <th>S.No.</th>
@@ -309,6 +309,6 @@ export default function BlogList() {
         </Modal.Body>
       </Modal>
       {/* ===================== END MODAL ===================== */}
-    </section>
+    </>
   );
 }

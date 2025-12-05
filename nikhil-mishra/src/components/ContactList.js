@@ -56,54 +56,52 @@ export default function ContactList() {
   };
 
   return (
-    <section>
-      <Container>
-        {loading ? (
-          <p className="text-center">Loading contacts...</p>
-        ) : (
-          <Table striped bordered hover responsive className="mt-3">
-            <thead>
-              <tr>
-                <th>S.No.</th>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Subject</th>
-                <th>Message</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {contacts.length > 0 ? (
-                contacts.map((contact, index) => (
-                  <tr key={contact._id}>
-                    <td>{index + 1}</td>
-                    <td>{new Date(contact.createdAt).toLocaleString()}</td>
-                    <td>{contact.name}</td>
-                    <td>{contact.email}</td>
-                    <td>{contact.phone}</td>
-                    <td>{contact.subject}</td>
-                    <td>{contact.message_content}</td>
-                    <td className="text-center">
-                      <MdDelete
-                        style={{ color: "red", cursor: "pointer" }}
-                        onClick={() => handleDelete(contact.email)}
-                      />
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="12" className="text-center">
-                    No contacts found
+    <Container>
+      {loading ? (
+        <p className="text-center">Loading contacts...</p>
+      ) : (
+        <Table striped bordered hover responsive className="mt-3">
+          <thead>
+            <tr>
+              <th>S.No.</th>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Subject</th>
+              <th>Message</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {contacts.length > 0 ? (
+              contacts.map((contact, index) => (
+                <tr key={contact._id}>
+                  <td>{index + 1}</td>
+                  <td>{new Date(contact.createdAt).toLocaleString()}</td>
+                  <td>{contact.name}</td>
+                  <td>{contact.email}</td>
+                  <td>{contact.phone}</td>
+                  <td>{contact.subject}</td>
+                  <td>{contact.message_content}</td>
+                  <td className="text-center">
+                    <MdDelete
+                      style={{ color: "red", cursor: "pointer" }}
+                      onClick={() => handleDelete(contact.email)}
+                    />
                   </td>
                 </tr>
-              )}
-            </tbody>
-          </Table>
-        )}
-      </Container>
-    </section>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="12" className="text-center">
+                  No contacts found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      )}
+    </Container>
   );
 }

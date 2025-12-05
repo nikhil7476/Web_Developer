@@ -56,7 +56,7 @@ export default function NewsletterList() {
       {loading ? (
         <p className="text-center">Loading subscribers...</p>
       ) : (
-        <Table striped bordered hover responsive className="mt-3">
+        <Table striped bordered hover responsive>
           <thead>
             <tr>
               <th>S.No.</th>
