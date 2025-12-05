@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
+import Link from "next/link";
 import Image from "next/image";
 import {
   Form,
@@ -12,7 +14,6 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Head from "next/head";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
@@ -71,14 +72,16 @@ export default function AdminLogin() {
               xs={12}
               className="align-content-center mb-3"
             >
-              <Image
-                src="/nikhil-logo.webp"
-                alt="Nikhil Mishra"
-                title="Nikhil Mishra"
-                width={460}
-                height={460}
-                style={{ width: "75%", height: "auto" }}
-              />
+              <Link href="/" title="Nikhil Mishra">
+                <Image
+                  src="/nikhil-logo.webp"
+                  alt="Nikhil Mishra"
+                  title="Nikhil Mishra"
+                  width={460}
+                  height={460}
+                  style={{ width: "75%", height: "auto" }}
+                />
+              </Link>
             </Col>
 
             <Col
