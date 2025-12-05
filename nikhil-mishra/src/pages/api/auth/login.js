@@ -8,8 +8,8 @@ export default function handler(req, res) {
 
   const { username, password } = req.body;
 
-  const ADMIN_USERNAME = "nikhil@gmail.com";
-  const ADMIN_PASSWORD = "Nimish@7476";
+  const ADMIN_USERNAME = process.env.Admin_Username;
+  const ADMIN_PASSWORD = process.env.Admin_Password;
 
   if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
     return res.status(200).json({
