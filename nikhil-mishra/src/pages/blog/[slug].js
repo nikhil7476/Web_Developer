@@ -80,7 +80,7 @@ export default function SingleBlog({ blog }) {
       {/* Content */}
       <div
         className="mt-4"
-        style={{ fontSize: "18px", lineHeight: "1.7" }}
+        style={{ fontSize: "16px", lineHeight: "1.5" }}
         dangerouslySetInnerHTML={{ __html: blog.content }}
       ></div>
     </Container>
