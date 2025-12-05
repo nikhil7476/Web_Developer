@@ -9,7 +9,7 @@ export default function handler(req, res) {
   const { username, password } = req.body;
 
   const ADMIN_USERNAME = "nikhil@gmail.com";
-  const ADMIN_PASSWORD = "Nikhil@123";
+  const ADMIN_PASSWORD = "Nimish@7476";
 
   if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
     return res.status(200).json({
