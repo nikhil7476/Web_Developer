@@ -4,7 +4,16 @@ const nextConfig = {
   reactCompiler: true,
   reactStrictMode: true,
   images: {
-    domains: ["niktech-portfolio.vercel.app"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "niktech-portfolio.vercel.app",
+      },
+    ],
   },
 };
 

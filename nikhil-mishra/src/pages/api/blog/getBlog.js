@@ -12,6 +12,30 @@ export default async function handler(req, res) {
   try {
     await connectDB();
 
+    const { slug } = req.query;
+
+    // -------------------------------------------
+    // If slug is provided → return a single blog
+    // -------------------------------------------
+    if (slug) {
+      const blog = await Blog.findOne({ slug });
+
+      if (!blog) {
+        return res.status(404).json({
+          success: false,
+          message: "Blog not found",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        data: blog,
+      });
+    }
+
+    // -------------------------------------------
+    // Otherwise → return all blogs
+    // -------------------------------------------
     const blogs = await Blog.find().sort({ createdAt: -1 });
 
     return res.status(200).json({
