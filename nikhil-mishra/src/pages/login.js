@@ -53,17 +53,24 @@ export default function AdminLogin() {
   return (
     <>
       <Head>
-        <title>Login - Ikken</title>
+        <title>Login - Niktech</title>
         <meta
           name="description"
           content="Login to Exploring Ideas, One Thought at a Time"
         />
       </Head>
 
-      <section>
+      <section style={{ height: "100vh", alignContent: "center" }}>
         <Container>
-          <Row className="justify-content-center mt-4 mb-4">
-            <Col xl={5} lg={5} md={5} sm={12}>
+          <Row>
+            <Col
+              xl={6}
+              lg={6}
+              md={6}
+              sm={12}
+              xs={12}
+              className="align-content-center mb-3"
+            >
               <Image
                 src="/nikhil-logo.webp"
                 alt="Nikhil Mishra"
@@ -74,8 +81,15 @@ export default function AdminLogin() {
               />
             </Col>
 
-            <Col xl={5} lg={5} md={5} sm={12}>
-              <h1 className="mb-4">Login</h1>
+            <Col
+              xl={6}
+              lg={6}
+              md={6}
+              sm={12}
+              xs={12}
+              className="align-content-center mb-3"
+            >
+              <h1 className="mb-4">Login To The Dashboard</h1>
 
               <Form
                 onSubmit={handleLogin}
@@ -116,10 +130,11 @@ export default function AdminLogin() {
                 </Form.Group>
 
                 <Button
-                  variant="secondary"
+                  variant="success"
                   type="submit"
                   disabled={loading}
                   className="w-100"
+                  title="Login"
                 >
                   {loading ? <Spinner animation="border" size="sm" /> : "Login"}
                 </Button>

@@ -1,18 +1,24 @@
 // Import global styles & necessary libraries
-import "@/styles/globals.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/router";
 import { ToastContainer, Zoom } from "react-toastify";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { SidebarProvider } from "@/components/SidebarContext";
+import "@/styles/globals.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
+
+  // Hide normal header/footer on these pages
+  const hideLayout = ["/login", "/admin"].includes(router.pathname);
+
   return (
-    <>
-      {/* Render the main component for the page */}
-      <Header />
+    <SidebarProvider>
+      {!hideLayout && <Header />}
       <Component {...pageProps} />
-      <Footer />
+      {!hideLayout && <Footer />}
 
       {/* Toast Container for notifications */}
       <ToastContainer
@@ -26,6 +32,6 @@ export default function App({ Component, pageProps }) {
         pauseOnHover
         draggable
       />
-    </>
+    </SidebarProvider>
   );
 }
