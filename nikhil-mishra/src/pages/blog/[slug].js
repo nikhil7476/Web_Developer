@@ -9,22 +9,13 @@ export async function getServerSideProps({ params }) {
 
     const data = await res.json();
 
-    // Ensure response is valid
-    if (!data.success || !Array.isArray(data.data)) {
-      return { notFound: true };
-    }
-
-    // Find blog matching slug
-    const blog = data.data.find(
-      (item) => item.slug.toLowerCase() === params.slug.toLowerCase()
-    );
-
-    if (!blog) {
+    // If blog not found
+    if (!data.success || !data.data) {
       return { notFound: true };
     }
 
     return {
-      props: { blog },
+      props: { blog: data.data }, // a single blog object
     };
   } catch (error) {
     return { notFound: true };
@@ -32,7 +23,6 @@ export async function getServerSideProps({ params }) {
 }
 
 export default function SingleBlog({ blog }) {
-  // Safety check
   if (!blog) return <p className="text-center mt-5">Blog not found</p>;
 
   return (
@@ -91,7 +81,7 @@ export default function SingleBlog({ blog }) {
       <div
         className="mt-4"
         style={{ fontSize: "18px", lineHeight: "1.7" }}
-        dangerouslySetInnerHTML={{ __html: blog.content || "" }}
+        dangerouslySetInnerHTML={{ __html: blog.content }}
       ></div>
     </Container>
   );
