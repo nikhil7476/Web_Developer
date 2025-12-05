@@ -1,6 +1,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 // Load Jodit Editor only on client side
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
@@ -19,26 +20,82 @@ export default function BlogForm() {
 
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({ type: "", text: "" });
   const [fieldErrors, setFieldErrors] = useState({});
 
-  // Handle text inputs
+  /** --------------------------------------
+   * SEQUENTIAL VALIDATION — ONE TOAST ONLY
+   --------------------------------------- */
+  const validateSequential = () => {
+    let errors = {};
+
+    if (!formData.author.trim()) {
+      toast.error("Author is required");
+      errors.author = "Author is required";
+      return errors;
+    }
+    if (!formData.title.trim()) {
+      toast.error("Title is required");
+      errors.title = "Title is required";
+      return errors;
+    }
+    if (!formData.slug.trim()) {
+      toast.error("Slug is required");
+      errors.slug = "Slug is required";
+      return errors;
+    }
+    if (!formData.date.trim()) {
+      toast.error("Date is required");
+      errors.date = "Date is required";
+      return errors;
+    }
+    if (!formData.tag.trim()) {
+      toast.error("Tags are required");
+      errors.tag = "At least one tag is required";
+      return errors;
+    }
+    if (!formData.excerpt.trim()) {
+      toast.error("Excerpt is required");
+      errors.excerpt = "Excerpt is required";
+      return errors;
+    }
+    if (!formData.content.trim()) {
+      toast.error("Content cannot be empty");
+      errors.content = "Content cannot be empty";
+      return errors;
+    }
+    if (!imageFile) {
+      toast.error("Blog image is required");
+      errors.image = "Blog image is required";
+      return errors;
+    }
+
+    return {}; // No errors
+  };
+
+  // Handle text changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle image file
+  // Image upload
   const handleImageChange = (e) => {
     setImageFile(e.target.files[0]);
   };
 
-  // Submit as FormData (for image upload)
+  // Submit form as multipart/form-data
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setMessage({ type: "", text: "" });
     setFieldErrors({});
+
+    // ✨ Sequential validation — stops at first missing field
+    const errors = validateSequential();
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const form = new FormData();
@@ -52,9 +109,7 @@ export default function BlogForm() {
         }
       });
 
-      if (imageFile) {
-        form.append("image", imageFile);
-      }
+      if (imageFile) form.append("image", imageFile);
 
       const res = await fetch("/api/blog/addBlog", {
         method: "POST",
@@ -63,34 +118,34 @@ export default function BlogForm() {
 
       const data = await res.json();
 
-      if (res.ok) {
-        setMessage({ type: "success", text: "Blog added successfully!" });
+      if (!res.ok) {
+        toast.error(data.message || "Failed to add blog");
 
-        setFormData({
-          author: "",
-          title: "",
-          slug: "",
-          date: "",
-          tag: "",
-          quote: "",
-          excerpt: "",
-          content: "",
-        });
-
-        setImageFile(null);
-        setFieldErrors({});
-      } else {
-        setMessage({
-          type: "danger",
-          text: data.message || "Failed to add blog",
-        });
-        setFieldErrors(data.errors || {});
+        if (data.errors) {
+          setFieldErrors(data.errors);
+        }
+        return;
       }
-    } catch (error) {
-      setMessage({
-        type: "danger",
-        text: "A network error occurred. Please try again.",
+
+      toast.success("Blog added successfully!");
+      window.dispatchEvent(new Event("blogAdded"));
+
+      // Reset form
+      setFormData({
+        author: "",
+        title: "",
+        slug: "",
+        date: "",
+        tag: "",
+        quote: "",
+        excerpt: "",
+        content: "",
       });
+
+      setImageFile(null);
+      setFieldErrors({});
+    } catch (error) {
+      toast.error("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -98,8 +153,6 @@ export default function BlogForm() {
 
   return (
     <Container className="mt-4">
-      {message.text && <Alert variant={message.type}>{message.text}</Alert>}
-
       <Form onSubmit={handleSubmit}>
         <Row>
           <Col md={4} className="mb-2">
@@ -112,9 +165,6 @@ export default function BlogForm() {
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.author}
               />
-              <Form.Control.Feedback type="invalid">
-                {fieldErrors.author}
-              </Form.Control.Feedback>
             </Form.Group>
           </Col>
 
@@ -128,9 +178,6 @@ export default function BlogForm() {
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.title}
               />
-              <Form.Control.Feedback type="invalid">
-                {fieldErrors.title}
-              </Form.Control.Feedback>
             </Form.Group>
           </Col>
 
@@ -144,9 +191,6 @@ export default function BlogForm() {
                 onChange={handleChange}
                 isInvalid={!!fieldErrors.slug}
               />
-              <Form.Control.Feedback type="invalid">
-                {fieldErrors.slug}
-              </Form.Control.Feedback>
             </Form.Group>
           </Col>
         </Row>
@@ -186,7 +230,6 @@ export default function BlogForm() {
                 name="quote"
                 value={formData.quote}
                 onChange={handleChange}
-                isInvalid={!!fieldErrors.quote}
               />
             </Form.Group>
           </Col>

@@ -1,37 +1,61 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Container, Table, Button, Form } from "react-bootstrap";
-import { MdDelete, MdEdit, MdCheck, MdCancel } from "react-icons/md";
+import { Container, Table, Button, Form, Modal } from "react-bootstrap";
+import { MdDelete, MdEdit } from "react-icons/md";
 import dynamic from "next/dynamic";
 
-// Load JoditEditor only on client
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 export default function BlogList() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editIndex, setEditIndex] = useState(null);
+
+  const [showModal, setShowModal] = useState(false);
   const [editBlog, setEditBlog] = useState({});
   const [editImageFile, setEditImageFile] = useState(null);
+  const [editIndex, setEditIndex] = useState(null);
 
-  useEffect(() => {
+  /** -------------------------------------------------
+   *  FETCH BLOGS (Reusable)
+   * ------------------------------------------------- */
+  const fetchBlogs = () => {
+    setLoading(true);
+
     fetch("/api/blog/getBlog")
       .then((res) => res.json())
       .then((data) => {
-        if (data.success) {
-          setBlogs(data.data);
-        } else if (Array.isArray(data)) {
-          setBlogs(data);
-        }
+        if (data.success) setBlogs(data.data);
+        else if (Array.isArray(data)) setBlogs(data);
         setLoading(false);
       })
       .catch((err) => {
         console.error("Error fetching blog data:", err);
         setLoading(false);
       });
+  };
+
+  /** -------------------------------------------------
+   *  INITIAL LOAD
+   * ------------------------------------------------- */
+  useEffect(() => {
+    fetchBlogs();
   }, []);
 
-  // Delete Blog
+  /** -------------------------------------------------
+   *  REFRESH LIST WHEN A BLOG IS ADDED FROM BlogForm
+   * ------------------------------------------------- */
+  useEffect(() => {
+    const handler = () => fetchBlogs();
+    window.addEventListener("blogAdded", handler);
+
+    return () => {
+      window.removeEventListener("blogAdded", handler);
+    };
+  }, []);
+
+  /** -------------------------------------------------
+   * DELETE BLOG
+   * ------------------------------------------------- */
   const handleDelete = async (slug) => {
     if (!window.confirm("Are you sure you want to delete this blog?")) return;
 
@@ -54,13 +78,18 @@ export default function BlogList() {
     }
   };
 
-  // Edit Click
+  /** -------------------------------------------------
+   * OPEN EDIT MODAL
+   * ------------------------------------------------- */
   const handleEditClick = (index) => {
     setEditIndex(index);
     setEditBlog({ ...blogs[index], tag: blogs[index].tag.join(", ") });
+    setShowModal(true);
   };
 
-  // Edit Field Change
+  /** -------------------------------------------------
+   * UPDATE BLOG FIELDS
+   * ------------------------------------------------- */
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditBlog((prev) => ({
@@ -69,12 +98,16 @@ export default function BlogList() {
     }));
   };
 
-  // Handle image update in edit mode
+  /** -------------------------------------------------
+   * IMAGE UPDATE
+   * ------------------------------------------------- */
   const handleEditImageChange = (e) => {
     setEditImageFile(e.target.files[0]);
   };
 
-  // Update Blog
+  /** -------------------------------------------------
+   * UPDATE BLOG REQUEST
+   * ------------------------------------------------- */
   const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -90,9 +123,7 @@ export default function BlogList() {
         }
       });
 
-      if (editImageFile) {
-        form.append("image", editImageFile);
-      }
+      if (editImageFile) form.append("image", editImageFile);
 
       const res = await fetch("/api/blog/updateBlog", {
         method: "PUT",
@@ -106,14 +137,14 @@ export default function BlogList() {
           prev.map((blog, idx) => (idx === editIndex ? data.data : blog))
         );
 
-        setEditIndex(null);
+        setShowModal(false);
         alert("Blog updated successfully!");
       } else {
         alert(data.message || "Failed to update blog.");
       }
     } catch (error) {
       console.error("Error updating blog:", error);
-      alert("An error occurred while updating the blog.");
+      alert("Error updating blog.");
     }
   };
 
@@ -146,147 +177,39 @@ export default function BlogList() {
                   <tr key={blog._id}>
                     <td>{index + 1}</td>
                     <td>{new Date(blog.createdAt).toLocaleString()}</td>
+                    <td>{blog.title}</td>
+                    <td>{blog.author}</td>
+                    <td>{blog.tag.join(", ")}</td>
+                    <td>{blog.quote}</td>
+                    <td>{blog.excerpt}</td>
+                    <td>{blog.slug}</td>
 
-                    {editIndex === index ? (
-                      <>
-                        {/* TITLE */}
-                        <td>
-                          <Form.Control
-                            name="title"
-                            value={editBlog.title}
-                            onChange={handleEditChange}
-                          />
-                        </td>
+                    <td dangerouslySetInnerHTML={{ __html: blog.content }} />
 
-                        {/* AUTHOR */}
-                        <td>
-                          <Form.Control
-                            name="author"
-                            value={editBlog.author}
-                            onChange={handleEditChange}
-                          />
-                        </td>
+                    <td>
+                      <Image
+                        src={blog.image}
+                        alt={blog.slug}
+                        width={80}
+                        height={80}
+                        style={{ objectFit: "cover" }}
+                      />
+                    </td>
 
-                        {/* TAGS */}
-                        <td>
-                          <Form.Control
-                            name="tag"
-                            value={editBlog.tag}
-                            onChange={handleEditChange}
-                          />
-                        </td>
-
-                        {/* QUOTE */}
-                        <td>
-                          <Form.Control
-                            name="quote"
-                            value={editBlog.quote}
-                            onChange={handleEditChange}
-                          />
-                        </td>
-
-                        {/* EXCERPT */}
-                        <td>
-                          <Form.Control
-                            name="excerpt"
-                            value={editBlog.excerpt}
-                            onChange={handleEditChange}
-                          />
-                        </td>
-
-                        {/* SLUG (read-only) */}
-                        <td>
-                          <Form.Control
-                            name="slug"
-                            value={editBlog.slug}
-                            disabled
-                          />
-                        </td>
-
-                        {/* CONTENT - Jodit Editor */}
-                        <td style={{ minWidth: "300px" }}>
-                          <JoditEditor
-                            value={editBlog.content}
-                            onChange={(value) =>
-                              setEditBlog({ ...editBlog, content: value })
-                            }
-                          />
-                        </td>
-
-                        {/* IMAGE UPLOAD */}
-                        <td>
-                          <Form.Control
-                            type="file"
-                            onChange={handleEditImageChange}
-                          />
-                          {editBlog.image && (
-                            <Image
-                              src={editBlog.image}
-                              alt="Blog Image"
-                              width={70}
-                              height={70}
-                              style={{ objectFit: "cover", marginTop: 6 }}
-                            />
-                          )}
-                        </td>
-
-                        {/* ACTION BUTTONS */}
-                        <td className="text-center">
-                          <MdCheck
-                            style={{
-                              color: "green",
-                              cursor: "pointer",
-                              marginRight: 8,
-                            }}
-                            onClick={handleUpdate}
-                          />
-                          <MdCancel
-                            style={{ color: "red", cursor: "pointer" }}
-                            onClick={() => setEditIndex(null)}
-                          />
-                        </td>
-                      </>
-                    ) : (
-                      <>
-                        <td>{blog.title}</td>
-                        <td>{blog.author}</td>
-                        <td>{blog.tag.join(", ")}</td>
-                        <td>{blog.quote}</td>
-                        <td>{blog.excerpt}</td>
-                        <td>{blog.slug}</td>
-
-                        {/* Render HTML content safely */}
-                        <td
-                          dangerouslySetInnerHTML={{ __html: blog.content }}
-                        />
-
-                        {/* Blog Image */}
-                        <td>
-                          <Image
-                            src={blog.image}
-                            alt={blog.slug}
-                            width={80}
-                            height={80}
-                            style={{ objectFit: "cover" }}
-                          />
-                        </td>
-
-                        <td className="text-center">
-                          <MdEdit
-                            style={{
-                              color: "blue",
-                              cursor: "pointer",
-                              marginRight: 8,
-                            }}
-                            onClick={() => handleEditClick(index)}
-                          />
-                          <MdDelete
-                            style={{ color: "red", cursor: "pointer" }}
-                            onClick={() => handleDelete(blog.slug)}
-                          />
-                        </td>
-                      </>
-                    )}
+                    <td className="text-center">
+                      <MdEdit
+                        style={{
+                          color: "blue",
+                          cursor: "pointer",
+                          marginRight: 8,
+                        }}
+                        onClick={() => handleEditClick(index)}
+                      />
+                      <MdDelete
+                        style={{ color: "red", cursor: "pointer" }}
+                        onClick={() => handleDelete(blog.slug)}
+                      />
+                    </td>
                   </tr>
                 ))
               ) : (
@@ -300,6 +223,92 @@ export default function BlogList() {
           </Table>
         )}
       </Container>
+
+      {/* ===================== EDIT MODAL ===================== */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} size="xl">
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Blog: {editBlog.title}</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <Form onSubmit={handleUpdate}>
+            <Form.Group className="mb-3">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                name="title"
+                value={editBlog.title || ""}
+                onChange={handleEditChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Author</Form.Label>
+              <Form.Control
+                name="author"
+                value={editBlog.author || ""}
+                onChange={handleEditChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Tags (comma separated)</Form.Label>
+              <Form.Control
+                name="tag"
+                value={editBlog.tag || ""}
+                onChange={handleEditChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Quote</Form.Label>
+              <Form.Control
+                name="quote"
+                value={editBlog.quote || ""}
+                onChange={handleEditChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Excerpt</Form.Label>
+              <Form.Control
+                name="excerpt"
+                value={editBlog.excerpt || ""}
+                onChange={handleEditChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Content</Form.Label>
+              <JoditEditor
+                value={editBlog.content}
+                onChange={(value) =>
+                  setEditBlog({ ...editBlog, content: value })
+                }
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Update Image</Form.Label>
+              <Form.Control type="file" onChange={handleEditImageChange} />
+
+              {editBlog.image && (
+                <Image
+                  src={editBlog.image}
+                  alt="Blog Image"
+                  width={100}
+                  height={100}
+                  style={{ objectFit: "cover", marginTop: 10 }}
+                />
+              )}
+            </Form.Group>
+
+            <Button variant="success" type="submit">
+              Update Blog
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+      {/* ===================== END MODAL ===================== */}
     </section>
   );
 }
