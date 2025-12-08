@@ -12,6 +12,7 @@
     "bootstrap": "^5.3.8",
     "cloudinary": "^2.8.0",
     "jodit-react": "^5.2.38",
+    "lucide-react": "^0.556.0",
     "mongoose": "^9.0.0",
     "multer": "^2.0.2",
     "next": "16.0.7",
