@@ -1,12 +1,6 @@
 import ContactForm from "@/components/ContactForm";
 import React from "react";
 import Link from "next/link";
-import {
-  BsInstagram,
-  BsPinterest,
-  BsTwitterX,
-  BsYoutube,
-} from "react-icons/bs";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { MdEmail } from "react-icons/md";
 import { IoLocation } from "react-icons/io5";
@@ -37,9 +31,7 @@ function Contact() {
               <Card className="shadow">
                 <Card.Body>
                   <Card.Title as="h3">Send Us A Message</Card.Title>
-                  <Card.Text>
-                    <ContactForm />
-                  </Card.Text>
+                  <ContactForm />
                 </Card.Body>
               </Card>
             </Col>
@@ -47,69 +39,66 @@ function Contact() {
               <Card className="mb-3 shadow">
                 <Card.Body>
                   <Card.Title as="h3">Contact Information</Card.Title>
-                  <Card.Text>
-                    <div className="d-flex align-items-center gap-3 mb-1">
-                      <div>
-                        <MdEmail className="fs-2" />
-                      </div>
-                      <div>
-                        <h6 className="mb-0 fs-6">Email</h6>
-                        <Link
-                          href="mailto:hello@savory.com"
-                          title="hello@savory.com"
-                          className="mb-0 fs-6"
-                        >
-                          hello@savory.com
-                        </Link>
-                      </div>
+                  <div className="d-flex align-items-center gap-3 mb-3">
+                    <div>
+                      <MdEmail className="fs-2" />
                     </div>
-                    <div className="d-flex align-items-center gap-3 mb-1">
-                      <div>
-                        <FaPhoneAlt className="fs-2" />
-                      </div>
-                      <div>
-                        <h6 className="mb-0 fs-6">Phone</h6>
-                        <Link
-                          href="tel:+1(555)123-4567"
-                          title="+1 (555) 123-4567"
-                          className="mb-0 fs-6"
-                        >
-                          +1{"(555)"}123-4567
-                        </Link>
-                      </div>
+                    <div className="d-flex flex-column">
+                      <span className="mb-0 fs-6">Email</span>
+                      <Link
+                        href="mailto:hello@savory.com"
+                        title="hello@savory.com"
+                        className="mb-0 fs-6"
+                      >
+                        hello@savory.com
+                      </Link>
                     </div>
-                    <div className="d-flex align-items-center gap-3 mb-1">
-                      <div>
-                        <IoLocation className="fs-2" />
-                      </div>
-                      <div>
-                        <h6 className="mb-0 fs-6">Address</h6>
-                        <p className="mb-0 fs-6">
-                          Culinary Street, Food City, FC 12345
-                        </p>
-                      </div>
+                  </div>
+                  <div className="d-flex align-items-center gap-3 mb-2">
+                    <div>
+                      <FaPhoneAlt className="fs-2" />
                     </div>
-                    <div className="d-flex align-items-center gap-3 mb-1">
-                      <div>
-                        <FaClock className="fs-2" />
-                      </div>
-                      <div>
-                        <h6 className="mb-0 fs-6">Hours</h6>
-                        <p className="mb-0 fs-6">Mon - Fri: 9AM - 6PM EST</p>
-                      </div>
+                    <div className="d-flex flex-column">
+                      <span className="mb-0 fs-6">Phone</span>
+                      <Link
+                        href="tel:+1(555)123-4567"
+                        title="+1 (555) 123-4567"
+                        className="mb-0 fs-6"
+                      >
+                        +1{"(555)"}123-4567
+                      </Link>
                     </div>
-                  </Card.Text>
+                  </div>
+                  <div className="d-flex align-items-center gap-3 mb-2">
+                    <div>
+                      <IoLocation className="fs-2" />
+                    </div>
+                    <div className="d-flex flex-column">
+                      <span className="mb-0 fs-6">Address</span>
+                      <span className="mb-0 fs-6">
+                        Culinary Street, Food City, FC 12345
+                      </span>
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center gap-3 mb-2">
+                    <div>
+                      <FaClock className="fs-2" />
+                    </div>
+                    <div className="d-flex flex-column">
+                      <span className="mb-0 fs-6">Hours</span>
+                      <span className="mb-0 fs-6">
+                        Mon - Fri: 9AM - 6PM EST
+                      </span>
+                    </div>
+                  </div>
                 </Card.Body>
               </Card>
               <Card className="mb-3 shadow">
                 <Card.Body>
-                  <Card.Title as="h4">Recipe Suggestions?</Card.Title>
+                  <Card.Title as="h3">Recipe Suggestions?</Card.Title>
                   <Card.Text>
-                    <p>
-                      {"We're"} always looking for new recipe ideas! Share your
-                      favorite dishes with us and you might see them featured on
-                      our blog.
-                    </p>
+                    {"We're"} always looking for new recipe ideas! Share your
+                    favorite dishes with us & see them featured on our blog.
                   </Card.Text>
                 </Card.Body>
               </Card>
