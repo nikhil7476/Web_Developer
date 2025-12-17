@@ -6,7 +6,7 @@ function Header() {
 
   return (
     <>
-      <section className="main-header fixed-top bg-white shadow">
+      <section className="main-header shadow">
         <Container>
           <Row>
             <Col>
