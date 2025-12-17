@@ -9,7 +9,8 @@ function Footer() {
           <Row>
             <Col>
               <p className="text-center text-white small m-0">
-                Copyright &copy; {new Date().getFullYear()} Niktech Pvt Ltd
+                &copy;{new Date().getFullYear()} Savory. All Rights Reserved.
+                Designed By Nikhil Mishra.
               </p>
             </Col>
           </Row>

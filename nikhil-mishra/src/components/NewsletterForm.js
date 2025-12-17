@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { IoSend } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 const NewsletterForm = () => {
@@ -51,24 +52,19 @@ const NewsletterForm = () => {
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} className="newsletterForm">
         <Form.Group controlId="emailField">
           <Form.Control
             type="email"
-            placeholder="Your email address"
+            placeholder="Enter Your Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={loading}
           />
         </Form.Group>
 
-        <Button
-          variant="outline-dark"
-          type="submit"
-          disabled={loading}
-          className="mt-2"
-        >
-          {loading ? "Subscribing..." : "SUBSCRIBE"}
+        <Button type="submit" disabled={loading} className="ctaBtn ">
+          {loading ? "Subscribing..." : <IoSend />}
         </Button>
       </Form>
     </>

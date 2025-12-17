@@ -12,16 +12,16 @@ function Header() {
             <Col>
               <Navbar expand={expand}>
                 <Container fluid>
-                  <Navbar.Brand href="/" title="Nikhil Mishra">
+                  <Navbar.Brand href="/" title="Savory.">
                     <Image
                       src="/nikhil-logo.webp"
-                      alt="Nikhil Mishra"
-                      title="Nikhil Mishra"
+                      alt="Savory."
+                      title="Savory."
                       width={50}
                       height={50}
                       className="rounded-circle shadow"
                     />{" "}
-                    Nikhil Mishra
+                    Savory.
                   </Navbar.Brand>
                   <Navbar.Toggle
                     aria-controls={`offcanvasNavbar-expand-${expand}`}
@@ -37,13 +37,13 @@ function Header() {
                       >
                         <Image
                           src="/nikhil-logo.webp"
-                          alt="Nikhil Mishra"
-                          title="Nikhil Mishra"
+                          alt="Savory."
+                          title="Savory."
                           width={50}
                           height={50}
                           className="rounded-circle shadow"
                         />{" "}
-                        Nikhil Mishra
+                        Savory.
                       </Offcanvas.Title>
                     </Offcanvas.Header>
 
@@ -52,20 +52,14 @@ function Header() {
                         <Nav.Link href="/" title="Home">
                           Home
                         </Nav.Link>
-                        <Nav.Link href="/about-us" title="About Us">
-                          About Us
+                        <Nav.Link href="/about" title="About">
+                          About
                         </Nav.Link>
-                        <Nav.Link href="/services" title="Services">
-                          Services
+                        <Nav.Link href="/blog" title="Recipes">
+                          Recipes
                         </Nav.Link>
-                        <Nav.Link href="/portfolio" title="Portfolio">
-                          Portfolio
-                        </Nav.Link>
-                        <Nav.Link href="/blog" title="Articles">
-                          Articles
-                        </Nav.Link>
-                        <Nav.Link href="/contact-us" title="Contact Us">
-                          Contact Us
+                        <Nav.Link href="/contact" title="Contact">
+                          Contact
                         </Nav.Link>
                       </Nav>
                     </Offcanvas.Body>
