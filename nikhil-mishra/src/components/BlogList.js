@@ -310,7 +310,8 @@ export default function BlogList() {
               {editBlog.image && (
                 <Image
                   src={editBlog.image}
-                  alt="Blog Image"
+                  alt="Blog Featured Image"
+                  title="Blog Featured Image"
                   width={100}
                   height={100}
                   style={{ objectFit: "cover", marginTop: 10 }}
