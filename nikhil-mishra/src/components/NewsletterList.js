@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Table } from "react-bootstrap";
+import { Col, Container, Row, Table } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 
 /* =====================
@@ -64,44 +64,53 @@ export default function NewsletterList() {
   ====================== */
   return (
     <Container>
-      {loading ? (
-        <p className="text-center">Loading subscribers...</p>
-      ) : (
-        <Table striped bordered hover responsive>
-          <thead>
-            <tr>
-              <th>S.No.</th>
-              <th>Subscriber Email</th>
-              <th>Date Subscribed</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {subscribers.length > 0 ? (
-              subscribers.map((subscriber, index) => (
-                <tr key={subscriber._id}>
-                  <td>{index + 1}</td>
-                  <td>{subscriber.email}</td>
-                  <td>{new Date(subscriber.createdAt).toLocaleString()}</td>
-                  <td className="text-center">
-                    <MdDelete
-                      style={{ color: "red", cursor: "pointer" }}
-                      onClick={() => handleDelete(subscriber.email)}
-                    />
-                  </td>
+      <Row>
+        <Col className="mb-3">
+          <h2>Newsletter Subscribers List</h2>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          {loading ? (
+            <p className="text-center">Loading subscribers...</p>
+          ) : (
+            <Table striped bordered hover responsive>
+              <thead>
+                <tr>
+                  <th>S.No.</th>
+                  <th>Subscriber Email</th>
+                  <th>Date Subscribed</th>
+                  <th>Action</th>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="text-center">
-                  No subscribers found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
-      )}
+              </thead>
+
+              <tbody>
+                {subscribers.length > 0 ? (
+                  subscribers.map((subscriber, index) => (
+                    <tr key={subscriber._id}>
+                      <td>{index + 1}</td>
+                      <td>{subscriber.email}</td>
+                      <td>{new Date(subscriber.createdAt).toLocaleString()}</td>
+                      <td className="text-center">
+                        <MdDelete
+                          style={{ color: "red", cursor: "pointer" }}
+                          onClick={() => handleDelete(subscriber.email)}
+                        />
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4" className="text-center">
+                      No subscribers found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+          )}
+        </Col>
+      </Row>
     </Container>
   );
 }

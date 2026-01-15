@@ -242,211 +242,231 @@ export default function ProjectForm() {
   ====================== */
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
-        {/* Core */}
-        <Row>
-          <Col md={4} className="mb-3">
-            <Form.Label>Title *</Form.Label>
-            <Form.Control
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-            />
-          </Col>
-          <Col md={4} className="mb-3">
-            <Form.Label>Slug *</Form.Label>
-            <Form.Control
-              name="slug"
-              value={formData.slug}
-              onChange={handleChange}
-            />
-          </Col>
-          <Col md={4} className="mb-3">
-            <Form.Label>Banner Description *</Form.Label>
-            <Form.Control
-              name="bannerDescription"
-              value={formData.bannerDescription}
-              onChange={handleChange}
-            />
-          </Col>
-        </Row>
+      <Row>
+        <Col className="mb-3">
+          <h2>Add New Project</h2>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form onSubmit={handleSubmit}>
+            {/* Core */}
+            <Row>
+              <Col md={4} className="mb-3">
+                <Form.Label>Title *</Form.Label>
+                <Form.Control
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                />
+              </Col>
+              <Col md={4} className="mb-3">
+                <Form.Label>Slug *</Form.Label>
+                <Form.Control
+                  name="slug"
+                  value={formData.slug}
+                  onChange={handleChange}
+                />
+              </Col>
+              <Col md={4} className="mb-3">
+                <Form.Label>Banner Description *</Form.Label>
+                <Form.Control
+                  name="bannerDescription"
+                  value={formData.bannerDescription}
+                  onChange={handleChange}
+                />
+              </Col>
+            </Row>
 
-        {/* Tags */}
-        <Row>
-          <Col md={4} className="mb-3">
-            <Form.Label>Tags</Form.Label>
-            <Form.Control
-              name="tag"
-              placeholder="UI, SaaS"
-              value={formData.tag}
-              onChange={handleChange}
-            />
-            <Form.Text muted>Comma separated</Form.Text>
-          </Col>
-          <Col md={4} className="mb-3">
-            <Form.Label>Features</Form.Label>
-            <Form.Control
-              name="featureList"
-              placeholder="Auth, SEO"
-              value={formData.featureList}
-              onChange={handleChange}
-            />
-            <Form.Text muted>Comma separated</Form.Text>
-          </Col>
-          <Col md={4} className="mb-3">
-            <Form.Label>Technologies Used</Form.Label>
-            <Form.Control
-              name="technologiesUsed"
-              placeholder="React, Next.js"
-              value={formData.technologiesUsed}
-              onChange={handleChange}
-            />
-            <Form.Text muted>Order matters</Form.Text>
-          </Col>
-        </Row>
+            {/* Tags */}
+            <Row>
+              <Col md={4} className="mb-3">
+                <Form.Label>Tags</Form.Label>
+                <Form.Control
+                  name="tag"
+                  placeholder="UI, SaaS"
+                  value={formData.tag}
+                  onChange={handleChange}
+                />
+                <Form.Text muted>Comma separated</Form.Text>
+              </Col>
+              <Col md={4} className="mb-3">
+                <Form.Label>Features</Form.Label>
+                <Form.Control
+                  name="featureList"
+                  placeholder="Auth, SEO"
+                  value={formData.featureList}
+                  onChange={handleChange}
+                />
+                <Form.Text muted>Comma separated</Form.Text>
+              </Col>
+              <Col md={4} className="mb-3">
+                <Form.Label>Technologies Used</Form.Label>
+                <Form.Control
+                  name="technologiesUsed"
+                  placeholder="React, Next.js"
+                  value={formData.technologiesUsed}
+                  onChange={handleChange}
+                />
+                <Form.Text muted>Order matters</Form.Text>
+              </Col>
+            </Row>
 
-        {/* Images */}
-        <Row>
-          <Col md={6} className="mb-3">
-            <Form.Label>Technology Images</Form.Label>
-            <Form.Control
-              type="file"
-              multiple
-              name="technologiesUsedImages"
-              onChange={handleImageChange}
-            />
-            <ImagePreview name="technologiesUsedImages" />
-          </Col>
-          <Col md={6} className="mb-3">
-            <Form.Label>Gallery Images</Form.Label>
-            <Form.Control
-              type="file"
-              multiple
-              name="galleryImages"
-              onChange={handleImageChange}
-            />
-            <ImagePreview name="galleryImages" />
-          </Col>
-        </Row>
+            {/* Images */}
+            <Row>
+              <Col md={6} className="mb-3">
+                <Form.Label>Technology Images</Form.Label>
+                <Form.Control
+                  type="file"
+                  multiple
+                  name="technologiesUsedImages"
+                  onChange={handleImageChange}
+                />
+                <ImagePreview name="technologiesUsedImages" />
+              </Col>
+              <Col md={6} className="mb-3">
+                <Form.Label>Gallery Images</Form.Label>
+                <Form.Control
+                  type="file"
+                  multiple
+                  name="galleryImages"
+                  onChange={handleImageChange}
+                />
+                <ImagePreview name="galleryImages" />
+              </Col>
+            </Row>
 
-        <Row>
-          {[
-            ["featuredImage", "Featured Image"],
-            ["bannerImage", "Banner Image"],
-            ["problemImage", "Problem Image"],
-            ["solutionImage", "Solution Image"],
-          ].map(([key, label]) => (
-            <Col md={3} key={key} className="mb-3">
-              <Form.Label>{label}</Form.Label>
-              <Form.Control
-                type="file"
-                name={key}
-                onChange={handleImageChange}
-              />
-              <ImagePreview name={key} />
-            </Col>
-          ))}
-        </Row>
+            <Row>
+              {[
+                ["featuredImage", "Featured Image"],
+                ["bannerImage", "Banner Image"],
+                ["problemImage", "Problem Image"],
+                ["solutionImage", "Solution Image"],
+              ].map(([key, label]) => (
+                <Col md={3} key={key} className="mb-3">
+                  <Form.Label>{label}</Form.Label>
+                  <Form.Control
+                    type="file"
+                    name={key}
+                    onChange={handleImageChange}
+                  />
+                  <ImagePreview name={key} />
+                </Col>
+              ))}
+            </Row>
 
-        {/* Content */}
-        <Row>
-          {[
-            ["problem", "Problem Heading"],
-            ["solution", "Solution Heading"],
-            ["learned", "Learned Heading"],
-          ].map(([key, label]) => (
-            <Col md={4} key={key} className="mb-3">
-              <Form.Label>{label}</Form.Label>
-              <Form.Control
-                name={key}
-                value={formData[key]}
-                onChange={handleChange}
-              />
-            </Col>
-          ))}
-        </Row>
+            {/* Content */}
+            <Row>
+              {[
+                ["problem", "Problem Heading"],
+                ["solution", "Solution Heading"],
+                ["learned", "Learned Heading"],
+              ].map(([key, label]) => (
+                <Col md={4} key={key} className="mb-3">
+                  <Form.Label>{label}</Form.Label>
+                  <Form.Control
+                    name={key}
+                    value={formData[key]}
+                    onChange={handleChange}
+                  />
+                </Col>
+              ))}
+            </Row>
 
-        <Row>
-          {[
-            ["problemStatement", "Problem Statement"],
-            ["solutionOverview", "Solution Overview"],
-            ["whatIlearned", "What I Learned"],
-          ].map(([key, label]) => (
-            <Col md={4} key={key} className="mb-3">
-              <Form.Label>{label}</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name={key}
-                value={formData[key]}
-                onChange={handleChange}
-              />
-            </Col>
-          ))}
-        </Row>
+            <Row>
+              {[
+                ["problemStatement", "Problem Statement"],
+                ["solutionOverview", "Solution Overview"],
+                ["whatIlearned", "What I Learned"],
+              ].map(([key, label]) => (
+                <Col md={4} key={key} className="mb-3">
+                  <Form.Label>{label}</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    name={key}
+                    value={formData[key]}
+                    onChange={handleChange}
+                  />
+                </Col>
+              ))}
+            </Row>
 
-        {/* Links */}
-        <Row>
-          <Col md={6} className="mb-3">
-            <Form.Label>Project Link</Form.Label>
-            <Form.Control
-              name="projectLink"
-              value={formData.projectLink}
-              onChange={handleChange}
-            />
-          </Col>
-          <Col md={6} className="mb-3">
-            <Form.Label>GitHub Link</Form.Label>
-            <Form.Control
-              name="githubLink"
-              value={formData.githubLink}
-              onChange={handleChange}
-            />
-          </Col>
-        </Row>
+            {/* Links */}
+            <Row>
+              <Col md={6} className="mb-3">
+                <Form.Label>Project Link</Form.Label>
+                <Form.Control
+                  name="projectLink"
+                  value={formData.projectLink}
+                  onChange={handleChange}
+                />
+              </Col>
+              <Col md={6} className="mb-3">
+                <Form.Label>GitHub Link</Form.Label>
+                <Form.Control
+                  name="githubLink"
+                  value={formData.githubLink}
+                  onChange={handleChange}
+                />
+              </Col>
+            </Row>
 
-        {/* FAQ */}
-        {formData.faq.map((item, index) => (
-          <Row key={index}>
-            <Col md={5} className="mb-3">
-              <Form.Control
-                placeholder="FAQ Question"
-                value={item.question}
-                onChange={(e) =>
-                  handleFaqChange(index, "question", e.target.value)
-                }
-              />
-            </Col>
-            <Col md={5} className="mb-3">
-              <Form.Control
-                placeholder="FAQ Answer"
-                value={item.answer}
-                onChange={(e) =>
-                  handleFaqChange(index, "answer", e.target.value)
-                }
-              />
-            </Col>
-            <Col md={2} className="mb-3 align-content-end">
-              <Button variant="danger" onClick={() => removeFaq(index)}>
-                Remove
-              </Button>
-            </Col>
-          </Row>
-        ))}
+            {/* FAQ */}
+            {formData.faq.map((item, index) => (
+              <Row key={index}>
+                <Col md={5} className="mb-3">
+                  <Form.Label>FAQ Question</Form.Label>
+                  <Form.Control
+                    value={item.question}
+                    onChange={(e) =>
+                      handleFaqChange(index, "question", e.target.value)
+                    }
+                  />
+                </Col>
+                <Col md={6} className="mb-3">
+                  <Form.Label>FAQ Answer</Form.Label>
+                  <Form.Control
+                    value={item.answer}
+                    onChange={(e) =>
+                      handleFaqChange(index, "answer", e.target.value)
+                    }
+                  />
+                </Col>
+                <Col md={1} className="mb-3 align-content-end">
+                  <Button variant="danger" onClick={() => removeFaq(index)}>
+                    Remove
+                  </Button>
+                </Col>
+              </Row>
+            ))}
 
-        <Button variant="secondary" onClick={addFaq}>
-          Add FAQ
-        </Button>
+            <Button variant="primary" onClick={addFaq}>
+              Add FAQ
+            </Button>
 
-        <Button
-          type="submit"
-          className="mx-2"
-          variant="success"
-          disabled={loading}
-        >
-          {loading ? "Adding..." : "Add Project"}
-        </Button>
-      </Form>
+            <Button
+              type="submit"
+              className="mx-2"
+              variant="success"
+              disabled={loading}
+            >
+              {loading ? "Adding..." : "Add Project"}
+            </Button>
+
+            <Button
+              variant="danger"
+              onClick={() => {
+                setFormData(initialFormData);
+                setImages(initialImages);
+                setPreviews({});
+              }}
+            >
+              Clear
+            </Button>
+          </Form>
+        </Col>
+      </Row>
     </Container>
   );
 }

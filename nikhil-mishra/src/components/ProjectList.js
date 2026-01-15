@@ -208,68 +208,77 @@ export default function ProjectList() {
   return (
     <>
       <Container>
-        {loading ? (
-          <p className="text-center">Loading projects...</p>
-        ) : (
-          <Table striped bordered hover responsive>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Slug</th>
-                <th>Tags</th>
-                <th>Technologies</th>
-                <th>Banner</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {projects.length ? (
-                projects.map((project, index) => (
-                  <tr key={project._id}>
-                    <td>{index + 1}</td>
-                    <td>{project.title}</td>
-                    <td>{project.slug}</td>
-                    <td>{project.tag.join(", ")}</td>
-                    <td>{project.technologiesUsed.join(", ")}</td>
-                    <td>
-                      {project.bannerImage && (
-                        <Image
-                          src={project.bannerImage}
-                          alt={project.slug}
-                          width={80}
-                          height={80}
-                          style={{ objectFit: "cover" }}
-                        />
-                      )}
-                    </td>
-                    <td className="text-center">
-                      <MdEdit
-                        style={{
-                          color: "blue",
-                          cursor: "pointer",
-                          marginRight: 8,
-                        }}
-                        onClick={() => handleEditClick(index)}
-                      />
-                      <MdDelete
-                        style={{ color: "red", cursor: "pointer" }}
-                        onClick={() => handleDelete(project.slug)}
-                      />
-                    </td>
+        <Row>
+          <Col className="mb-3">
+            <h2>Project List</h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {loading ? (
+              <p className="text-center">Loading projects...</p>
+            ) : (
+              <Table striped bordered hover responsive>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Slug</th>
+                    <th>Tags</th>
+                    <th>Technologies</th>
+                    <th>Banner</th>
+                    <th>Action</th>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7" className="text-center">
-                    No projects found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
-        )}
+                </thead>
+
+                <tbody>
+                  {projects.length ? (
+                    projects.map((project, index) => (
+                      <tr key={project._id}>
+                        <td>{index + 1}</td>
+                        <td>{project.title}</td>
+                        <td>{project.slug}</td>
+                        <td>{project.tag.join(", ")}</td>
+                        <td>{project.technologiesUsed.join(", ")}</td>
+                        <td>
+                          {project.bannerImage && (
+                            <Image
+                              src={project.bannerImage}
+                              alt={project.slug}
+                              width={80}
+                              height={80}
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </td>
+                        <td className="text-center">
+                          <MdEdit
+                            style={{
+                              color: "blue",
+                              cursor: "pointer",
+                              marginRight: 8,
+                            }}
+                            onClick={() => handleEditClick(index)}
+                          />
+                          <MdDelete
+                            style={{ color: "red", cursor: "pointer" }}
+                            onClick={() => handleDelete(project.slug)}
+                          />
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7" className="text-center">
+                        No projects found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            )}
+          </Col>
+        </Row>
       </Container>
 
       {/* =====================

@@ -173,163 +173,172 @@ export default function BlogForm() {
   ====================== */
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
-        {/* =====================
+      <Row>
+        <Col className="mb-3">
+          <h2>Add New Blog</h2>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form onSubmit={handleSubmit}>
+            {/* =====================
             Basic Info
-        ====================== */}
-        <Row>
-          <Col md={4} className="mb-2">
-            <Form.Group controlId="author">
-              <Form.Label>Author *</Form.Label>
-              <Form.Control
-                type="text"
-                name="author"
-                value={formData.author}
-                onChange={handleChange}
-                isInvalid={!!fieldErrors.author}
-              />
-            </Form.Group>
-          </Col>
+            ====================== */}
+            <Row>
+              <Col md={4} className="mb-2">
+                <Form.Group controlId="author">
+                  <Form.Label>Author *</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="author"
+                    value={formData.author}
+                    onChange={handleChange}
+                    isInvalid={!!fieldErrors.author}
+                  />
+                </Form.Group>
+              </Col>
 
-          <Col md={4} className="mb-2">
-            <Form.Group controlId="title">
-              <Form.Label>Title *</Form.Label>
-              <Form.Control
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                isInvalid={!!fieldErrors.title}
-              />
-            </Form.Group>
-          </Col>
+              <Col md={4} className="mb-2">
+                <Form.Group controlId="title">
+                  <Form.Label>Title *</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    isInvalid={!!fieldErrors.title}
+                  />
+                </Form.Group>
+              </Col>
 
-          <Col md={4} className="mb-2">
-            <Form.Group controlId="slug">
-              <Form.Label>Slug *</Form.Label>
-              <Form.Control
-                type="text"
-                name="slug"
-                value={formData.slug}
-                onChange={handleChange}
-                isInvalid={!!fieldErrors.slug}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+              <Col md={4} className="mb-2">
+                <Form.Group controlId="slug">
+                  <Form.Label>Slug *</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="slug"
+                    value={formData.slug}
+                    onChange={handleChange}
+                    isInvalid={!!fieldErrors.slug}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-        {/* =====================
+            {/* =====================
             Metadata
         ====================== */}
-        <Row>
-          <Col md={4} className="mb-2">
-            <Form.Group controlId="date">
-              <Form.Label>Date *</Form.Label>
-              <Form.Control
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                isInvalid={!!fieldErrors.date}
-              />
-            </Form.Group>
-          </Col>
+            <Row>
+              <Col md={4} className="mb-2">
+                <Form.Group controlId="date">
+                  <Form.Label>Date *</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    isInvalid={!!fieldErrors.date}
+                  />
+                </Form.Group>
+              </Col>
 
-          <Col md={4} className="mb-2">
-            <Form.Group controlId="tag">
-              <Form.Label>Tags (comma separated) *</Form.Label>
-              <Form.Control
-                type="text"
-                name="tag"
-                value={formData.tag}
-                onChange={handleChange}
-                isInvalid={!!fieldErrors.tag}
-              />
-            </Form.Group>
-          </Col>
+              <Col md={4} className="mb-2">
+                <Form.Group controlId="tag">
+                  <Form.Label>Tags (comma separated) *</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="tag"
+                    value={formData.tag}
+                    onChange={handleChange}
+                    isInvalid={!!fieldErrors.tag}
+                  />
+                </Form.Group>
+              </Col>
 
-          <Col md={4} className="mb-2">
-            <Form.Group controlId="quote">
-              <Form.Label>Quote</Form.Label>
-              <Form.Control
-                type="text"
-                name="quote"
-                value={formData.quote}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+              <Col md={4} className="mb-2">
+                <Form.Group controlId="quote">
+                  <Form.Label>Quote</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="quote"
+                    value={formData.quote}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-        {/* =====================
+            {/* =====================
             Excerpt
         ====================== */}
-        <Row>
-          <Col md={12} className="mb-2">
-            <Form.Group controlId="excerpt">
-              <Form.Label>Excerpt *</Form.Label>
-              <Form.Control
-                type="text"
-                name="excerpt"
-                value={formData.excerpt}
-                onChange={handleChange}
-                isInvalid={!!fieldErrors.excerpt}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+            <Row>
+              <Col md={12} className="mb-2">
+                <Form.Group controlId="excerpt">
+                  <Form.Label>Excerpt *</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="excerpt"
+                    value={formData.excerpt}
+                    onChange={handleChange}
+                    isInvalid={!!fieldErrors.excerpt}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-        {/* =====================
+            {/* =====================
             Image Upload
         ====================== */}
-        <Row>
-          <Col md={12} className="mb-2">
-            <Form.Group controlId="image">
-              <Form.Label>Upload Blog Image *</Form.Label>
-              <Form.Control
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                isInvalid={!!fieldErrors.image}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+            <Row>
+              <Col md={12} className="mb-2">
+                <Form.Group controlId="image">
+                  <Form.Label>Upload Blog Image *</Form.Label>
+                  <Form.Control
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    isInvalid={!!fieldErrors.image}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-        {/* =====================
+            {/* =====================
             Content Editor
         ====================== */}
-        <Row>
-          <Col md={12} className="mb-2">
-            <Form.Group controlId="content">
-              <Form.Label>Content *</Form.Label>
+            <Row>
+              <Col md={12} className="mb-2">
+                <Form.Group controlId="content">
+                  <Form.Label>Content *</Form.Label>
 
-              <JoditEditor
-                value={formData.content}
-                onChange={(value) =>
-                  setFormData((prev) => ({ ...prev, content: value }))
-                }
-              />
+                  <JoditEditor
+                    value={formData.content}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, content: value }))
+                    }
+                  />
 
-              {fieldErrors.content && (
-                <div className="text-danger">{fieldErrors.content}</div>
-              )}
-            </Form.Group>
-          </Col>
-        </Row>
+                  {fieldErrors.content && (
+                    <div className="text-danger">{fieldErrors.content}</div>
+                  )}
+                </Form.Group>
+              </Col>
+            </Row>
 
-        {/* =====================
+            {/* =====================
             Submit
         ====================== */}
-        <Button
-          variant="success"
-          type="submit"
-          disabled={loading}
-          className="mt-3"
-        >
-          {loading ? "Adding..." : "Add Blog"}
-        </Button>
-      </Form>
+            <Button
+              variant="success"
+              type="submit"
+              disabled={loading}
+              className="mt-3"
+            >
+              {loading ? "Adding..." : "Add Blog"}
+            </Button>
+          </Form>
+        </Col>
+      </Row>
     </Container>
   );
 }

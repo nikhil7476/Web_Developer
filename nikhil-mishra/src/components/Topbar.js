@@ -46,7 +46,7 @@ export default function Topbar({ onLogout }) {
           className="menuIcon"
           onClick={() => setSidebarOpen(!sidebarOpen)}
         />
-        <h2 className="ms-2">Admin Dashboard</h2>
+        <h1 className="ms-2 fs-4 mb-0">Admin Dashboard</h1>
       </div>
 
       {/* =====================

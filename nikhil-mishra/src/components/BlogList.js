@@ -1,7 +1,15 @@
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { Container, Table, Button, Form, Modal } from "react-bootstrap";
+import {
+  Container,
+  Col,
+  Row,
+  Table,
+  Button,
+  Form,
+  Modal,
+} from "react-bootstrap";
 import { MdDelete, MdEdit } from "react-icons/md";
 
 /* =====================
@@ -165,77 +173,88 @@ export default function BlogList() {
   return (
     <>
       <Container>
-        {loading ? (
-          <p className="text-center">Loading blogs...</p>
-        ) : (
-          <Table striped bordered hover responsive>
-            <thead>
-              <tr>
-                <th>S.No.</th>
-                <th>Date</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Tags</th>
-                <th>Quote</th>
-                <th>Excerpt</th>
-                <th>Slug</th>
-                <th>Content</th>
-                <th>Image</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {blogs.length > 0 ? (
-                blogs.map((blog, index) => (
-                  <tr key={blog._id}>
-                    <td>{index + 1}</td>
-                    <td>{new Date(blog.createdAt).toLocaleString()}</td>
-                    <td>{blog.title}</td>
-                    <td>{blog.author}</td>
-                    <td>{blog.tag.join(", ")}</td>
-                    <td>{blog.quote}</td>
-                    <td>{blog.excerpt}</td>
-                    <td>{blog.slug}</td>
-
-                    <td dangerouslySetInnerHTML={{ __html: blog.content }} />
-
-                    <td>
-                      <Image
-                        src={blog.image}
-                        alt={blog.slug}
-                        width={80}
-                        height={80}
-                        style={{ objectFit: "cover" }}
-                      />
-                    </td>
-
-                    <td className="text-center">
-                      <MdEdit
-                        style={{
-                          color: "blue",
-                          cursor: "pointer",
-                          marginRight: 8,
-                        }}
-                        onClick={() => handleEditClick(index)}
-                      />
-                      <MdDelete
-                        style={{ color: "red", cursor: "pointer" }}
-                        onClick={() => handleDelete(blog.slug)}
-                      />
-                    </td>
+        <Row>
+          <Col className="mb-3">
+            <h2>Blog List</h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {loading ? (
+              <p className="text-center">Loading blogs...</p>
+            ) : (
+              <Table striped bordered hover responsive>
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Date</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Tags</th>
+                    <th>Quote</th>
+                    <th>Excerpt</th>
+                    <th>Slug</th>
+                    <th>Content</th>
+                    <th>Image</th>
+                    <th>Action</th>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="11" className="text-center">
-                    No blogs found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
-        )}
+                </thead>
+
+                <tbody>
+                  {blogs.length > 0 ? (
+                    blogs.map((blog, index) => (
+                      <tr key={blog._id}>
+                        <td>{index + 1}</td>
+                        <td>{new Date(blog.createdAt).toLocaleString()}</td>
+                        <td>{blog.title}</td>
+                        <td>{blog.author}</td>
+                        <td>{blog.tag.join(", ")}</td>
+                        <td>{blog.quote}</td>
+                        <td>{blog.excerpt}</td>
+                        <td>{blog.slug}</td>
+
+                        <td
+                          dangerouslySetInnerHTML={{ __html: blog.content }}
+                        />
+
+                        <td>
+                          <Image
+                            src={blog.image}
+                            alt={blog.slug}
+                            width={80}
+                            height={80}
+                            style={{ objectFit: "cover" }}
+                          />
+                        </td>
+
+                        <td className="text-center">
+                          <MdEdit
+                            style={{
+                              color: "blue",
+                              cursor: "pointer",
+                              marginRight: 8,
+                            }}
+                            onClick={() => handleEditClick(index)}
+                          />
+                          <MdDelete
+                            style={{ color: "red", cursor: "pointer" }}
+                            onClick={() => handleDelete(blog.slug)}
+                          />
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="11" className="text-center">
+                        No blogs found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            )}
+          </Col>
+        </Row>
       </Container>
 
       {/* =====================

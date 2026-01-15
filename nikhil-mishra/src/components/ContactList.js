@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Table } from "react-bootstrap";
+import { Col, Container, Row, Table } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 
 /* =====================
@@ -70,52 +70,61 @@ export default function ContactList() {
   ====================== */
   return (
     <Container>
-      {loading ? (
-        <p className="text-center">Loading contacts...</p>
-      ) : (
-        <Table striped bordered hover responsive className="mt-3">
-          <thead>
-            <tr>
-              <th>S.No.</th>
-              <th>Date</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Subject</th>
-              <th>Message</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {contacts.length > 0 ? (
-              contacts.map((contact, index) => (
-                <tr key={contact._id}>
-                  <td>{index + 1}</td>
-                  <td>{new Date(contact.createdAt).toLocaleString()}</td>
-                  <td>{contact.name}</td>
-                  <td>{contact.email}</td>
-                  <td>{contact.phone}</td>
-                  <td>{contact.subject}</td>
-                  <td>{contact.message_content}</td>
-                  <td className="text-center">
-                    <MdDelete
-                      style={{ color: "red", cursor: "pointer" }}
-                      onClick={() => handleDelete(contact.email)}
-                    />
-                  </td>
+      <Row>
+        <Col className="mb-3">
+          <h2>Contact List</h2>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          {loading ? (
+            <p className="text-center">Loading contacts...</p>
+          ) : (
+            <Table striped bordered hover responsive className="mt-3">
+              <thead>
+                <tr>
+                  <th>S.No.</th>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Subject</th>
+                  <th>Message</th>
+                  <th>Action</th>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="8" className="text-center">
-                  No contacts found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
-      )}
+              </thead>
+
+              <tbody>
+                {contacts.length > 0 ? (
+                  contacts.map((contact, index) => (
+                    <tr key={contact._id}>
+                      <td>{index + 1}</td>
+                      <td>{new Date(contact.createdAt).toLocaleString()}</td>
+                      <td>{contact.name}</td>
+                      <td>{contact.email}</td>
+                      <td>{contact.phone}</td>
+                      <td>{contact.subject}</td>
+                      <td>{contact.message_content}</td>
+                      <td className="text-center">
+                        <MdDelete
+                          style={{ color: "red", cursor: "pointer" }}
+                          onClick={() => handleDelete(contact.email)}
+                        />
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="8" className="text-center">
+                      No contacts found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+          )}
+        </Col>
+      </Row>
     </Container>
   );
 }
