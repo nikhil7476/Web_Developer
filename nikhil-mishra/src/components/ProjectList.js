@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   Container,
@@ -221,13 +222,30 @@ export default function ProjectList() {
               <Table striped bordered hover responsive>
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Slug</th>
-                    <th>Tags</th>
-                    <th>Technologies</th>
-                    <th>Banner</th>
-                    <th>Action</th>
+                    <th className="text-nowrap">#</th>
+                    <th className="text-nowrap">Title</th>
+                    <th className="text-nowrap">Slug</th>
+                    <th className="text-nowrap">Banner Desc</th>
+                    <th className="text-nowrap">Tags</th>
+                    <th className="text-nowrap">Features</th>
+                    <th className="text-nowrap">Technologies</th>
+                    <th className="text-nowrap">Technology Imgs</th>
+                    <th className="text-nowrap">Gallery Imgs</th>
+                    <th className="text-nowrap">Featured Img</th>
+                    <th className="text-nowrap">Banner Img</th>
+                    <th className="text-nowrap">Problem Img</th>
+                    <th className="text-nowrap">Problem Heading</th>
+                    <th className="text-nowrap">Problem Statement</th>
+                    <th className="text-nowrap">Solution Img</th>
+                    <th className="text-nowrap">Solution Heading</th>
+                    <th className="text-nowrap">Solution Overview</th>
+                    <th className="text-nowrap">Learned Heading</th>
+                    <th className="text-nowrap">What I Learned</th>
+                    <th className="text-nowrap">Project Link</th>
+                    <th className="text-nowrap">GitHub Link</th>
+                    <th className="text-nowrap">FAQ Questions</th>
+                    <th className="text-nowrap">FAQ Answers</th>
+                    <th className="text-nowrap">Action</th>
                   </tr>
                 </thead>
 
@@ -238,8 +256,45 @@ export default function ProjectList() {
                         <td>{index + 1}</td>
                         <td>{project.title}</td>
                         <td>{project.slug}</td>
+                        <td>{project.bannerDescription}</td>
                         <td>{project.tag.join(", ")}</td>
+                        <td>{project.featureList.join(", ")}</td>
                         <td>{project.technologiesUsed.join(", ")}</td>
+                        <td>
+                          {project.technologiesUsedImages.map((img, i) => (
+                            <Image
+                              key={i}
+                              src={img}
+                              alt={`Tech ${i}`}
+                              width={80}
+                              height={80}
+                              style={{ objectFit: "cover", marginRight: 4 }}
+                            />
+                          ))}
+                        </td>
+                        <td>
+                          {project.galleryImages.map((img, i) => (
+                            <Image
+                              key={i}
+                              src={img}
+                              alt={`Gallery ${i}`}
+                              width={80}
+                              height={80}
+                              style={{ objectFit: "cover", marginRight: 4 }}
+                            />
+                          ))}
+                        </td>
+                        <td>
+                          {project.featuredImage && (
+                            <Image
+                              src={project.featuredImage}
+                              alt={`Featured ${project.slug}`}
+                              width={80}
+                              height={80}
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </td>
                         <td>
                           {project.bannerImage && (
                             <Image
@@ -250,6 +305,73 @@ export default function ProjectList() {
                               style={{ objectFit: "cover" }}
                             />
                           )}
+                        </td>
+                        <td>
+                          {project.problemImage && (
+                            <Image
+                              src={project.problemImage}
+                              alt={`Problem ${project.slug}`}
+                              width={80}
+                              height={80}
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </td>
+                        <td>{project.problem}</td>
+                        <td>{project.problemStatement}</td>
+                        <td>
+                          {project.solutionImage && (
+                            <Image
+                              src={project.solutionImage}
+                              alt={`Solution ${project.slug}`}
+                              width={80}
+                              height={80}
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </td>
+                        <td>{project.solution}</td>
+                        <td>{project.solutionOverview}</td>
+                        <td>{project.learned}</td>
+                        <td>{project.whatIlearned}</td>
+                        <td>
+                          <Link
+                            href={project.projectLink}
+                            target="_blank"
+                            title="Live URL"
+                          >
+                            {project.projectLink}
+                          </Link>
+                        </td>
+                        <td>
+                          <Link
+                            href={project.githubLink}
+                            target="_blank"
+                            title="GitHub Repo URL"
+                          >
+                            {project.githubLink}
+                          </Link>
+                        </td>
+                        <td>
+                          {project.faq && project.faq.length
+                            ? project.faq.map((item, index) => (
+                                <div key={index}>
+                                  <strong>{item.question}</strong>
+                                  {index !== project.faq.length - 1 && <hr />}
+                                </div>
+                              ))
+                            : "No FAQ"}
+                        </td>
+
+                        <td>
+                          {project.faq && project.faq.length
+                            ? project.faq.map((item, index) => (
+                                <div key={index}>
+                                  <span>{item.answer}</span>
+                                  {index !== project.faq.length - 1 && <hr />}
+                                </div>
+                              ))
+                            : "No FAQ"}
                         </td>
                         <td className="text-center">
                           <MdEdit
@@ -291,25 +413,29 @@ export default function ProjectList() {
 
         <Modal.Body>
           <Form onSubmit={handleUpdate}>
+            {/* ================= BASIC INFO ================= */}
+            <h5 className="mb-3">Basic Information</h5>
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Title</Form.Label>
+                  <Form.Label>Title *</Form.Label>
                   <Form.Control
                     name="title"
                     value={editProject.title || ""}
                     onChange={handleEditChange}
+                    required
                   />
                 </Form.Group>
               </Col>
 
               <Col md={6}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Slug</Form.Label>
+                  <Form.Label>Slug *</Form.Label>
                   <Form.Control
                     name="slug"
                     value={editProject.slug || ""}
                     onChange={handleEditChange}
+                    required
                   />
                 </Form.Group>
               </Col>
@@ -324,8 +450,11 @@ export default function ProjectList() {
               />
             </Form.Group>
 
+            {/* ================= TAGS / FEATURES ================= */}
+            <h5 className="mt-4 mb-3">Metadata</h5>
+
             <Form.Group className="mb-3">
-              <Form.Label>Tags</Form.Label>
+              <Form.Label>Tags (comma separated)</Form.Label>
               <Form.Control
                 name="tag"
                 value={editProject.tag || ""}
@@ -334,7 +463,7 @@ export default function ProjectList() {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Features</Form.Label>
+              <Form.Label>Feature List (comma separated)</Form.Label>
               <Form.Control
                 name="featureList"
                 value={editProject.featureList || ""}
@@ -343,7 +472,7 @@ export default function ProjectList() {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Technologies Used</Form.Label>
+              <Form.Label>Technologies Used (comma separated)</Form.Label>
               <Form.Control
                 name="technologiesUsed"
                 value={editProject.technologiesUsed || ""}
@@ -351,8 +480,143 @@ export default function ProjectList() {
               />
             </Form.Group>
 
+            {/* ================= PROBLEM ================= */}
+            <h5 className="mt-4 mb-3">Problem Section</h5>
+
             <Form.Group className="mb-3">
-              <Form.Label>Update Images</Form.Label>
+              <Form.Label>Problem Heading</Form.Label>
+              <Form.Control
+                name="problem"
+                value={editProject.problem || ""}
+                onChange={handleEditChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Problem Statement</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                name="problemStatement"
+                value={editProject.problemStatement || ""}
+                onChange={handleEditChange}
+              />
+            </Form.Group>
+
+            {/* ================= SOLUTION ================= */}
+            <h5 className="mt-4 mb-3">Solution Section</h5>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Solution Heading</Form.Label>
+              <Form.Control
+                name="solution"
+                value={editProject.solution || ""}
+                onChange={handleEditChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Solution Overview</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                name="solutionOverview"
+                value={editProject.solutionOverview || ""}
+                onChange={handleEditChange}
+              />
+            </Form.Group>
+
+            {/* ================= LEARNING ================= */}
+            <h5 className="mt-4 mb-3">Learnings</h5>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Learned Heading</Form.Label>
+              <Form.Control
+                name="learned"
+                value={editProject.learned || ""}
+                onChange={handleEditChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>What I Learned</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                name="whatIlearned"
+                value={editProject.whatIlearned || ""}
+                onChange={handleEditChange}
+              />
+            </Form.Group>
+
+            {/* ================= LINKS ================= */}
+            <h5 className="mt-4 mb-3">Links</h5>
+
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Live Project URL</Form.Label>
+                  <Form.Control
+                    name="projectLink"
+                    value={editProject.projectLink || ""}
+                    onChange={handleEditChange}
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>GitHub Repository URL</Form.Label>
+                  <Form.Control
+                    name="githubLink"
+                    value={editProject.githubLink || ""}
+                    onChange={handleEditChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            {/* ================= IMAGES ================= */}
+            <h5 className="mt-4 mb-3">Update Images</h5>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Featured Image</Form.Label>
+              <Form.Control
+                type="file"
+                name="featuredImage"
+                onChange={handleEditImageChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Banner Image</Form.Label>
+              <Form.Control
+                type="file"
+                name="bannerImage"
+                onChange={handleEditImageChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Problem Image</Form.Label>
+              <Form.Control
+                type="file"
+                name="problemImage"
+                onChange={handleEditImageChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Solution Image</Form.Label>
+              <Form.Control
+                type="file"
+                name="solutionImage"
+                onChange={handleEditImageChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Gallery Images</Form.Label>
               <Form.Control
                 type="file"
                 multiple
@@ -361,9 +625,29 @@ export default function ProjectList() {
               />
             </Form.Group>
 
-            <Button variant="success" type="submit">
-              Update Project
-            </Button>
+            <Form.Group className="mb-3">
+              <Form.Label>Technology Images</Form.Label>
+              <Form.Control
+                type="file"
+                multiple
+                name="technologiesUsedImages"
+                onChange={handleEditImageChange}
+              />
+            </Form.Group>
+
+            {/* ================= ACTION ================= */}
+            <div className="text-end mt-4">
+              <Button
+                variant="secondary"
+                className="me-2"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button variant="success" type="submit">
+                Update Project
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

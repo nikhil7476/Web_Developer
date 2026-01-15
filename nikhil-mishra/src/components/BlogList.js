@@ -186,17 +186,17 @@ export default function BlogList() {
               <Table striped bordered hover responsive>
                 <thead>
                   <tr>
-                    <th>S.No.</th>
-                    <th>Date</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Tags</th>
-                    <th>Quote</th>
-                    <th>Excerpt</th>
-                    <th>Slug</th>
-                    <th>Content</th>
-                    <th>Image</th>
-                    <th>Action</th>
+                    <th className="text-nowrap">S.No.</th>
+                    <th className="text-nowrap">Date</th>
+                    <th className="text-nowrap">Title</th>
+                    <th className="text-nowrap">Author</th>
+                    <th className="text-nowrap">Tags</th>
+                    <th className="text-nowrap">Quote</th>
+                    <th className="text-nowrap">Excerpt</th>
+                    <th className="text-nowrap">Slug</th>
+                    <th className="text-nowrap">Content</th>
+                    <th className="text-nowrap">Image</th>
+                    <th className="text-nowrap">Action</th>
                   </tr>
                 </thead>
 
