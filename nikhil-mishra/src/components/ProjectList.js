@@ -222,7 +222,7 @@ export default function ProjectList() {
               <Table striped bordered hover responsive>
                 <thead>
                   <tr>
-                    <th className="text-nowrap">#</th>
+                    <th className="text-nowrap">S.No</th>
                     <th className="text-nowrap">Title</th>
                     <th className="text-nowrap">Slug</th>
                     <th className="text-nowrap">Banner Desc</th>
