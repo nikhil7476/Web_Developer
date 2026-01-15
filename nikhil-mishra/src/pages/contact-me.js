@@ -6,7 +6,7 @@ import { MdEmail } from "react-icons/md";
 import { IoLocation } from "react-icons/io5";
 import { FaClock, FaPhoneAlt } from "react-icons/fa";
 
-function Contact() {
+function ContactMe() {
   return (
     <>
       <section className="banner-section">
@@ -106,68 +106,8 @@ function Contact() {
           </Row>
         </Container>
       </section>
-      <section>
-        <Container>
-          <Row>
-            <Col className="text-center">
-              <h2>Frequently Asked Questions</h2>
-              <p>
-                Find answers to common questions about our recipes and blog.
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="mb-3">
-              <Card className="shadow">
-                <Card.Body>
-                  <Card.Title>Can I submit my own recipes?</Card.Title>
-                  <Card.Text>
-                    Absolutely! We love featuring recipes from our community.
-                    Use the contact form above to share your creations.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="mb-3">
-              <Card className="shadow">
-                <Card.Body>
-                  <Card.Title>How often do you post new recipes?</Card.Title>
-                  <Card.Text>
-                    We publish new recipes every week, typically 2-3 times.
-                    Subscribe to our newsletter to never miss a new recipe.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="mb-3">
-              <Card className="shadow">
-                <Card.Body>
-                  <Card.Title>Can I print the recipes?</Card.Title>
-                  <Card.Text>
-                    Yes! Every recipe page has a print button that formats the
-                    recipe perfectly for printing.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="mb-3">
-              <Card className="shadow">
-                <Card.Body>
-                  <Card.Title>
-                    Do you accommodate dietary restrictions?
-                  </Card.Title>
-                  <Card.Text>
-                    We include options for various dietary needs. Look for tags
-                    like vegetarian, gluten-free, and dairy-free.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </section>
     </>
   );
 }
 
-export default Contact;
+export default ContactMe;

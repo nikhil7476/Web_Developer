@@ -52,14 +52,14 @@ function Header() {
                         <Nav.Link href="/" title="Home">
                           Home
                         </Nav.Link>
-                        <Nav.Link href="/about" title="About">
-                          About
+                        <Nav.Link href="/about-me" title="About Me">
+                          About Me
                         </Nav.Link>
-                        <Nav.Link href="/blog" title="Recipes">
-                          Recipes
+                        <Nav.Link href="/blog" title="Blog">
+                          Blog
                         </Nav.Link>
-                        <Nav.Link href="/contact" title="Contact">
-                          Contact
+                        <Nav.Link href="/contact-me" title="Contact Me">
+                          Contact Me
                         </Nav.Link>
                       </Nav>
                     </Offcanvas.Body>

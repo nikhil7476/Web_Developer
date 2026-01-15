@@ -1,12 +1,12 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Topbar from "@/components/Topbar";
+import Sidebar from "@/components/Sidebar";
 import NewsletterList from "@/components/NewsletterList";
 import ContactList from "@/components/ContactList";
 import BlogForm from "@/components/BlogForm";
 import BlogList from "@/components/BlogList";
-import Sidebar from "@/components/Sidebar";
-import Topbar from "@/components/Topbar";
 import AdminFooter from "@/components/AdminFooter";
 
 export default function Admin() {
