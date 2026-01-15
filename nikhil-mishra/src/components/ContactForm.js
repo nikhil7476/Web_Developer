@@ -3,7 +3,13 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { BsSend } from "react-icons/bs";
 import { toast } from "react-toastify";
 
+/* =====================
+   Contact Form Component
+====================== */
 export default function ContactForm() {
+  /* =====================
+     State
+  ====================== */
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,17 +20,16 @@ export default function ContactForm() {
 
   const [loading, setLoading] = useState(false);
 
-  // ---------------------------
-  // VALIDATION HELPERS
-  // ---------------------------
-
+  /* =====================
+     Validation Helpers
+  ====================== */
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
 
   const validatePhone = (phone) => {
-    const regex = /^[0-9]{10}$/; // 10-digit phone
+    const regex = /^[0-9]{10}$/; // 10-digit phone number
     return regex.test(phone);
   };
 
@@ -33,26 +38,32 @@ export default function ContactForm() {
       toast.error("Name is required!");
       return false;
     }
+
     if (!formData.email.trim()) {
       toast.error("Email is required!");
       return false;
     }
+
     if (!validateEmail(formData.email)) {
       toast.error("Enter a valid email address!");
       return false;
     }
+
     if (!formData.phone.trim()) {
       toast.error("Phone number is required!");
       return false;
     }
+
     if (!validatePhone(formData.phone)) {
       toast.error("Enter a valid 10-digit phone number!");
       return false;
     }
+
     if (!formData.subject.trim()) {
       toast.error("Subject is required!");
       return false;
     }
+
     if (!formData.message_content.trim()) {
       toast.error("Message content is required!");
       return false;
@@ -61,10 +72,9 @@ export default function ContactForm() {
     return true;
   };
 
-  // ---------------------------
-  // FORM SUBMIT HANDLER
-  // ---------------------------
-
+  /* =====================
+     Submit Handler
+  ====================== */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -84,6 +94,9 @@ export default function ContactForm() {
       if (res.ok) {
         toast.success("Contact details added successfully!");
 
+        /* =====================
+           Reset Form
+        ====================== */
         setFormData({
           name: "",
           email: "",
@@ -101,14 +114,20 @@ export default function ContactForm() {
     }
   };
 
+  /* =====================
+     Render
+  ====================== */
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
+        {/* =====================
+            Name & Email
+        ====================== */}
         <Row>
           <Col xl={6} lg={6} md={6} sm={12} xs={12} className="mb-3">
             <Form.Group controlId="name">
               <Form.Label>
-                Name<span style={{ color: "red" }}>*</span>
+                Name <span style={{ color: "red" }}>*</span>
               </Form.Label>
               <Form.Control
                 type="text"
@@ -116,16 +135,20 @@ export default function ContactForm() {
                 placeholder="John Doe"
                 value={formData.name}
                 onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
+                  setFormData((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }))
                 }
                 disabled={loading}
               />
             </Form.Group>
           </Col>
+
           <Col xl={6} lg={6} md={6} sm={12} xs={12} className="mb-3">
             <Form.Group controlId="email">
               <Form.Label>
-                Email<span style={{ color: "red" }}>*</span>
+                Email <span style={{ color: "red" }}>*</span>
               </Form.Label>
               <Form.Control
                 type="email"
@@ -133,7 +156,10 @@ export default function ContactForm() {
                 placeholder="john@example.com"
                 value={formData.email}
                 onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
+                  setFormData((prev) => ({
+                    ...prev,
+                    email: e.target.value,
+                  }))
                 }
                 disabled={loading}
               />
@@ -141,11 +167,14 @@ export default function ContactForm() {
           </Col>
         </Row>
 
+        {/* =====================
+            Phone & Subject
+        ====================== */}
         <Row>
           <Col xl={6} lg={6} md={6} sm={12} xs={12} className="mb-3">
             <Form.Group controlId="phone">
               <Form.Label>
-                Phone<span style={{ color: "red" }}>*</span>
+                Phone <span style={{ color: "red" }}>*</span>
               </Form.Label>
               <Form.Control
                 type="number"
@@ -153,16 +182,20 @@ export default function ContactForm() {
                 placeholder="9027xxxxxx"
                 value={formData.phone}
                 onChange={(e) =>
-                  setFormData({ ...formData, phone: e.target.value })
+                  setFormData((prev) => ({
+                    ...prev,
+                    phone: e.target.value,
+                  }))
                 }
                 disabled={loading}
               />
             </Form.Group>
           </Col>
+
           <Col xl={6} lg={6} md={6} sm={12} xs={12} className="mb-3">
             <Form.Group controlId="subject">
               <Form.Label>
-                Subject<span style={{ color: "red" }}>*</span>
+                Subject <span style={{ color: "red" }}>*</span>
               </Form.Label>
               <Form.Control
                 type="text"
@@ -170,7 +203,10 @@ export default function ContactForm() {
                 placeholder="What is this about?"
                 value={formData.subject}
                 onChange={(e) =>
-                  setFormData({ ...formData, subject: e.target.value })
+                  setFormData((prev) => ({
+                    ...prev,
+                    subject: e.target.value,
+                  }))
                 }
                 disabled={loading}
               />
@@ -178,11 +214,14 @@ export default function ContactForm() {
           </Col>
         </Row>
 
+        {/* =====================
+            Message
+        ====================== */}
         <Row>
           <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-3">
             <Form.Group controlId="message_content">
               <Form.Label>
-                Message<span style={{ color: "red" }}>*</span>
+                Message <span style={{ color: "red" }}>*</span>
               </Form.Label>
               <Form.Control
                 as="textarea"
@@ -191,7 +230,10 @@ export default function ContactForm() {
                 placeholder="Write your message here..."
                 value={formData.message_content}
                 onChange={(e) =>
-                  setFormData({ ...formData, message_content: e.target.value })
+                  setFormData((prev) => ({
+                    ...prev,
+                    message_content: e.target.value,
+                  }))
                 }
                 disabled={loading}
               />
@@ -199,6 +241,9 @@ export default function ContactForm() {
           </Col>
         </Row>
 
+        {/* =====================
+            Submit Button
+        ====================== */}
         <Button
           variant="secondary"
           type="submit"

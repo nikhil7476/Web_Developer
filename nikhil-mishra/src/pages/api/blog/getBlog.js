@@ -1,7 +1,13 @@
 import connectDB from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 
+/* =====================
+   Get Blog(s) Handler
+====================== */
 export default async function handler(req, res) {
+  /* =====================
+     Method Validation
+  ====================== */
   if (req.method !== "GET") {
     return res.status(405).json({
       success: false,
@@ -10,13 +16,19 @@ export default async function handler(req, res) {
   }
 
   try {
+    /* =====================
+       Database Connection
+    ====================== */
     await connectDB();
 
+    /* =====================
+       Request Parameters
+    ====================== */
     const { slug } = req.query;
 
-    // -------------------------------------------
-    // If slug is provided → return a single blog
-    // -------------------------------------------
+    /* =====================
+       Fetch Single Blog
+    ====================== */
     if (slug) {
       const blog = await Blog.findOne({ slug });
 
@@ -33,9 +45,9 @@ export default async function handler(req, res) {
       });
     }
 
-    // -------------------------------------------
-    // Otherwise → return all blogs
-    // -------------------------------------------
+    /* =====================
+       Fetch All Blogs
+    ====================== */
     const blogs = await Blog.find().sort({ createdAt: -1 });
 
     return res.status(200).json({

@@ -1,13 +1,7 @@
 import connectDB from "@/lib/mongodb";
-import Subscriber from "@/models/Subscriber";
+import Project from "@/models/Project";
 
-/* =====================
-   Get Subscribers Handler
-====================== */
 export default async function handler(req, res) {
-  /* =====================
-     Method Validation
-  ====================== */
   if (req.method !== "GET") {
     return res.status(405).json({
       success: false,
@@ -16,28 +10,40 @@ export default async function handler(req, res) {
   }
 
   try {
-    /* =====================
-       Database Connection
-    ====================== */
     await connectDB();
 
-    /* =====================
-       Fetch Subscribers
-    ====================== */
-    const subscribers = await Subscriber.find({}, "email createdAt").sort({
-      createdAt: -1,
-    });
+    const { slug } = req.query;
 
     /* =====================
-       Success Response
+       Single Project
     ====================== */
+    if (slug) {
+      const project = await Project.findOne({ slug });
+
+      if (!project) {
+        return res.status(404).json({
+          success: false,
+          message: "Project not found",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        data: project,
+      });
+    }
+
+    /* =====================
+       All Projects
+    ====================== */
+    const projects = await Project.find().sort({ createdAt: -1 });
+
     return res.status(200).json({
       success: true,
-      data: subscribers,
+      data: projects,
     });
   } catch (error) {
-    console.error("Error fetching subscribers:", error);
-
+    console.error("Get Project Error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",

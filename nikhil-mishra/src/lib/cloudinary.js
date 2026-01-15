@@ -1,5 +1,8 @@
 import { v2 as cloudinary } from "cloudinary";
 
+/* =====================
+   Cloudinary Configuration
+====================== */
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD,
   api_key: process.env.CLOUDINARY_KEY,

@@ -1,17 +1,29 @@
-import { Col, Container, Nav, Navbar, Offcanvas, Row } from "react-bootstrap";
 import Image from "next/image";
+import { Col, Container, Nav, Navbar, Offcanvas, Row } from "react-bootstrap";
 
+/* =====================
+   Header Component
+====================== */
 function Header() {
+  /* =====================
+     Navbar Config
+  ====================== */
   const expand = "lg";
 
   return (
     <>
+      {/* =====================
+          Header Section
+      ====================== */}
       <section className="main-header shadow">
         <Container>
           <Row>
             <Col>
               <Navbar expand={expand}>
                 <Container fluid>
+                  {/* =====================
+                      Brand
+                  ====================== */}
                   <Navbar.Brand href="/" title="Savory.">
                     <Image
                       src="/nikhil-logo.webp"
@@ -23,9 +35,17 @@ function Header() {
                     />{" "}
                     Savory.
                   </Navbar.Brand>
+
+                  {/* =====================
+                      Toggle
+                  ====================== */}
                   <Navbar.Toggle
                     aria-controls={`offcanvasNavbar-expand-${expand}`}
                   />
+
+                  {/* =====================
+                      Offcanvas Menu
+                  ====================== */}
                   <Navbar.Offcanvas
                     id={`offcanvasNavbar-expand-${expand}`}
                     aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
@@ -48,6 +68,9 @@ function Header() {
                     </Offcanvas.Header>
 
                     <Offcanvas.Body>
+                      {/* =====================
+                          Navigation Links
+                      ====================== */}
                       <Nav className="justify-content-end flex-grow-1 pe-3">
                         <Nav.Link href="/" title="Home">
                           Home

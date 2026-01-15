@@ -2,7 +2,13 @@ import connectDB from "@/lib/mongodb";
 import Userdata from "@/models/Userdata";
 import nodemailer from "nodemailer";
 
+/* =====================
+   Contact Form Handler
+====================== */
 export default async function handler(req, res) {
+  /* =====================
+     Method Validation
+  ====================== */
   if (req.method !== "POST") {
     return res.status(405).json({
       success: false,
@@ -10,6 +16,9 @@ export default async function handler(req, res) {
     });
   }
 
+  /* =====================
+     Database Connection
+  ====================== */
   try {
     await connectDB();
   } catch (error) {
@@ -21,8 +30,14 @@ export default async function handler(req, res) {
     });
   }
 
+  /* =====================
+     Request Payload
+  ====================== */
   const { name, email, phone, subject, message_content } = req.body;
 
+  /* =====================
+     Required Validation
+  ====================== */
   if (!name || !email || !phone || !subject || !message_content) {
     return res.status(400).json({
       success: false,
@@ -32,7 +47,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Save to database
+    /* =====================
+       Save Contact Data
+    ====================== */
     const newUserData = await Userdata.create({
       name,
       email,
@@ -41,10 +58,9 @@ export default async function handler(req, res) {
       message_content,
     });
 
-    // -----------------------------
-    // Send Email to the User
-    // -----------------------------
-
+    /* =====================
+       Email Transporter
+    ====================== */
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_SERVER,
       port: process.env.EMAIL_PORT,
@@ -55,6 +71,9 @@ export default async function handler(req, res) {
       },
     });
 
+    /* =====================
+       Send Confirmation Email
+    ====================== */
     await transporter.sendMail({
       from: process.env.EMAIL_FROM,
       to: email,
@@ -73,6 +92,9 @@ export default async function handler(req, res) {
       `,
     });
 
+    /* =====================
+       Success Response
+    ====================== */
     return res.status(201).json({
       success: true,
       message: "Contact form submitted and email sent successfully.",
@@ -80,6 +102,7 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error("Error creating user data or sending email:", error);
+
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",

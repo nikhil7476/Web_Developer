@@ -1,14 +1,22 @@
-import ContactForm from "@/components/ContactForm";
 import React from "react";
 import Link from "next/link";
 import { Card, Col, Container, Row } from "react-bootstrap";
+
+import ContactForm from "@/components/ContactForm";
+
 import { MdEmail } from "react-icons/md";
 import { IoLocation } from "react-icons/io5";
 import { FaClock, FaPhoneAlt } from "react-icons/fa";
 
+/* =====================
+   Contact Page
+====================== */
 function ContactMe() {
   return (
     <>
+      {/* =====================
+          Banner Section
+      ====================== */}
       <section className="banner-section">
         <Container>
           <Row>
@@ -24,9 +32,16 @@ function ContactMe() {
           </Row>
         </Container>
       </section>
+
+      {/* =====================
+          Contact Content
+      ====================== */}
       <section>
         <Container>
           <Row>
+            {/* =====================
+                Contact Form
+            ====================== */}
             <Col xl={8} lg={8} md={6} sm={12} xs={12} className="mb-3">
               <Card className="shadow">
                 <Card.Body>
@@ -35,14 +50,18 @@ function ContactMe() {
                 </Card.Body>
               </Card>
             </Col>
+
+            {/* =====================
+                Contact Details
+            ====================== */}
             <Col xl={4} lg={4} md={6} sm={12} xs={12} className="mb-3">
               <Card className="mb-3 shadow">
                 <Card.Body>
                   <Card.Title as="h3">Contact Information</Card.Title>
+
+                  {/* Email */}
                   <div className="d-flex align-items-center gap-3 mb-3">
-                    <div>
-                      <MdEmail className="fs-2" />
-                    </div>
+                    <MdEmail className="fs-2" />
                     <div className="d-flex flex-column">
                       <span className="mb-0 fs-6">Email</span>
                       <Link
@@ -54,10 +73,10 @@ function ContactMe() {
                       </Link>
                     </div>
                   </div>
+
+                  {/* Phone */}
                   <div className="d-flex align-items-center gap-3 mb-2">
-                    <div>
-                      <FaPhoneAlt className="fs-2" />
-                    </div>
+                    <FaPhoneAlt className="fs-2" />
                     <div className="d-flex flex-column">
                       <span className="mb-0 fs-6">Phone</span>
                       <Link
@@ -69,10 +88,10 @@ function ContactMe() {
                       </Link>
                     </div>
                   </div>
+
+                  {/* Address */}
                   <div className="d-flex align-items-center gap-3 mb-2">
-                    <div>
-                      <IoLocation className="fs-2" />
-                    </div>
+                    <IoLocation className="fs-2" />
                     <div className="d-flex flex-column">
                       <span className="mb-0 fs-6">Address</span>
                       <span className="mb-0 fs-6">
@@ -80,10 +99,10 @@ function ContactMe() {
                       </span>
                     </div>
                   </div>
+
+                  {/* Hours */}
                   <div className="d-flex align-items-center gap-3 mb-2">
-                    <div>
-                      <FaClock className="fs-2" />
-                    </div>
+                    <FaClock className="fs-2" />
                     <div className="d-flex flex-column">
                       <span className="mb-0 fs-6">Hours</span>
                       <span className="mb-0 fs-6">
@@ -93,6 +112,10 @@ function ContactMe() {
                   </div>
                 </Card.Body>
               </Card>
+
+              {/* =====================
+                  Extra Info
+              ====================== */}
               <Card className="mb-3 shadow">
                 <Card.Body>
                   <Card.Title as="h3">Recipe Suggestions?</Card.Title>

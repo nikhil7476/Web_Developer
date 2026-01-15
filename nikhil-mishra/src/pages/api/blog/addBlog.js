@@ -3,27 +3,33 @@ import Blog from "@/models/Blog";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 
-// --------------------------------------------
-// Cloudinary Config
-// --------------------------------------------
+/* =====================
+   Cloudinary Configuration
+====================== */
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD,
   api_key: process.env.CLOUDINARY_KEY,
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-// Disable Next.js body parser for FormData
+/* =====================
+   Next.js API Config
+====================== */
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: false, // required for FormData
   },
 };
 
-// Multer: store file in memory buffer (not disk)
+/* =====================
+   Multer Configuration
+====================== */
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Helper to run middleware
+/* =====================
+   Middleware Runner
+====================== */
 function runMiddleware(req, res, fn) {
   return new Promise((resolve, reject) => {
     fn(req, res, (result) => {
@@ -33,7 +39,13 @@ function runMiddleware(req, res, fn) {
   });
 }
 
+/* =====================
+   Create Blog Handler
+====================== */
 export default async function handler(req, res) {
+  /* =====================
+     Method Validation
+  ====================== */
   if (req.method !== "POST") {
     return res.status(405).json({
       success: false,
@@ -41,15 +53,22 @@ export default async function handler(req, res) {
     });
   }
 
+  /* =====================
+     Database Connection
+  ====================== */
   await connectDB();
 
   try {
-    // Run file upload middleware
+    /* =====================
+       File Upload Middleware
+    ====================== */
     await runMiddleware(req, res, upload.single("image"));
 
     const body = req.body;
 
-    // Parse tags
+    /* =====================
+       Parse Tags
+    ====================== */
     let tags = [];
     if (body.tag) {
       try {
@@ -59,7 +78,9 @@ export default async function handler(req, res) {
       }
     }
 
-    // Required validation
+    /* =====================
+       Required Field Validation
+    ====================== */
     if (!body.author || !body.title || !body.slug || !body.content) {
       return res.status(400).json({
         success: false,
@@ -67,7 +88,9 @@ export default async function handler(req, res) {
       });
     }
 
-    // Check slug
+    /* =====================
+       Slug Uniqueness Check
+    ====================== */
     const exists = await Blog.findOne({ slug: body.slug });
     if (exists) {
       return res.status(409).json({
@@ -76,13 +99,13 @@ export default async function handler(req, res) {
       });
     }
 
-    // --------------------------------------------
-    // Upload Image to Cloudinary
-    // --------------------------------------------
+    /* =====================
+       Image Upload (Cloudinary)
+    ====================== */
     let imageUrl = null;
 
     if (req.file) {
-      const uploadRes = await cloudinary.uploader.upload_stream(
+      const uploadStream = cloudinary.uploader.upload_stream(
         { folder: "blogs" },
         async (error, result) => {
           if (error) {
@@ -95,7 +118,6 @@ export default async function handler(req, res) {
 
           imageUrl = result.secure_url;
 
-          // Save blog after image upload
           const newBlog = new Blog({
             author: body.author,
             title: body.title,
@@ -118,14 +140,13 @@ export default async function handler(req, res) {
         }
       );
 
-      // Pipe buffer to cloudinary uploader
-      uploadRes.end(req.file.buffer);
+      uploadStream.end(req.file.buffer);
       return;
     }
 
-    // --------------------------------------------
-    // If no image uploaded
-    // --------------------------------------------
+    /* =====================
+       Create Blog (No Image)
+    ====================== */
     const newBlog = new Blog({
       author: body.author,
       title: body.title,

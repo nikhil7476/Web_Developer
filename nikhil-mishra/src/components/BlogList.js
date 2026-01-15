@@ -1,12 +1,21 @@
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { Container, Table, Button, Form, Modal } from "react-bootstrap";
 import { MdDelete, MdEdit } from "react-icons/md";
-import dynamic from "next/dynamic";
 
+/* =====================
+   Dynamic Imports
+====================== */
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
+/* =====================
+   Blog List Component
+====================== */
 export default function BlogList() {
+  /* =====================
+     State
+  ====================== */
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,9 +24,9 @@ export default function BlogList() {
   const [editImageFile, setEditImageFile] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
 
-  /** -------------------------------------------------
-   *  FETCH BLOGS (Reusable)
-   * ------------------------------------------------- */
+  /* =====================
+     Fetch Blogs (Reusable)
+  ====================== */
   const fetchBlogs = () => {
     setLoading(true);
 
@@ -28,22 +37,22 @@ export default function BlogList() {
         else if (Array.isArray(data)) setBlogs(data);
         setLoading(false);
       })
-      .catch((err) => {
-        console.error("Error fetching blog data:", err);
+      .catch((error) => {
+        console.error("Error fetching blog data:", error);
         setLoading(false);
       });
   };
 
-  /** -------------------------------------------------
-   *  INITIAL LOAD
-   * ------------------------------------------------- */
+  /* =====================
+     Initial Load
+  ====================== */
   useEffect(() => {
     fetchBlogs();
   }, []);
 
-  /** -------------------------------------------------
-   *  REFRESH LIST WHEN A BLOG IS ADDED FROM BlogForm
-   * ------------------------------------------------- */
+  /* =====================
+     Refresh on Blog Add
+  ====================== */
   useEffect(() => {
     const handler = () => fetchBlogs();
     window.addEventListener("blogAdded", handler);
@@ -53,9 +62,9 @@ export default function BlogList() {
     };
   }, []);
 
-  /** -------------------------------------------------
-   * DELETE BLOG
-   * ------------------------------------------------- */
+  /* =====================
+     Delete Blog
+  ====================== */
   const handleDelete = async (slug) => {
     if (!window.confirm("Are you sure you want to delete this blog?")) return;
 
@@ -78,36 +87,36 @@ export default function BlogList() {
     }
   };
 
-  /** -------------------------------------------------
-   * OPEN EDIT MODAL
-   * ------------------------------------------------- */
+  /* =====================
+     Open Edit Modal
+  ====================== */
   const handleEditClick = (index) => {
     setEditIndex(index);
-    setEditBlog({ ...blogs[index], tag: blogs[index].tag.join(", ") });
+    setEditBlog({
+      ...blogs[index],
+      tag: blogs[index].tag.join(", "),
+    });
     setShowModal(true);
   };
 
-  /** -------------------------------------------------
-   * UPDATE BLOG FIELDS
-   * ------------------------------------------------- */
+  /* =====================
+     Edit Field Change
+  ====================== */
   const handleEditChange = (e) => {
     const { name, value } = e.target;
-    setEditBlog((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setEditBlog((prev) => ({ ...prev, [name]: value }));
   };
 
-  /** -------------------------------------------------
-   * IMAGE UPDATE
-   * ------------------------------------------------- */
+  /* =====================
+     Edit Image Change
+  ====================== */
   const handleEditImageChange = (e) => {
     setEditImageFile(e.target.files[0]);
   };
 
-  /** -------------------------------------------------
-   * UPDATE BLOG REQUEST
-   * ------------------------------------------------- */
+  /* =====================
+     Update Blog
+  ====================== */
   const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -123,7 +132,9 @@ export default function BlogList() {
         }
       });
 
-      if (editImageFile) form.append("image", editImageFile);
+      if (editImageFile) {
+        form.append("image", editImageFile);
+      }
 
       const res = await fetch("/api/blog/updateBlog", {
         method: "PUT",
@@ -148,6 +159,9 @@ export default function BlogList() {
     }
   };
 
+  /* =====================
+     Render
+  ====================== */
   return (
     <>
       <Container>
@@ -224,7 +238,9 @@ export default function BlogList() {
         )}
       </Container>
 
-      {/* ===================== EDIT MODAL ===================== */}
+      {/* =====================
+          Edit Blog Modal
+      ====================== */}
       <Modal show={showModal} onHide={() => setShowModal(false)} size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Edit Blog: {editBlog.title}</Modal.Title>
@@ -282,7 +298,7 @@ export default function BlogList() {
               <JoditEditor
                 value={editBlog.content}
                 onChange={(value) =>
-                  setEditBlog({ ...editBlog, content: value })
+                  setEditBlog((prev) => ({ ...prev, content: value }))
                 }
               />
             </Form.Group>
@@ -308,7 +324,6 @@ export default function BlogList() {
           </Form>
         </Modal.Body>
       </Modal>
-      {/* ===================== END MODAL ===================== */}
     </>
   );
 }

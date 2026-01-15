@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
+
 import {
   Form,
   Button,
@@ -13,17 +14,30 @@ import {
   Col,
   InputGroup,
 } from "react-bootstrap";
+
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
+/* =====================
+   Admin Login Page
+====================== */
 export default function AdminLogin() {
+  /* =====================
+     State
+  ====================== */
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  /* =====================
+     Router
+  ====================== */
   const router = useRouter();
 
+  /* =====================
+     Login Handler
+  ====================== */
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -53,6 +67,9 @@ export default function AdminLogin() {
 
   return (
     <>
+      {/* =====================
+          SEO & Meta
+      ====================== */}
       <Head>
         <title>Login - Niktech</title>
         <meta
@@ -61,9 +78,15 @@ export default function AdminLogin() {
         />
       </Head>
 
+      {/* =====================
+          Login Section
+      ====================== */}
       <section style={{ height: "100vh", alignContent: "center" }}>
         <Container>
           <Row>
+            {/* =====================
+                Brand / Logo
+            ====================== */}
             <Col
               xl={6}
               lg={6}
@@ -84,6 +107,9 @@ export default function AdminLogin() {
               </Link>
             </Col>
 
+            {/* =====================
+                Login Form
+            ====================== */}
             <Col
               xl={6}
               lg={6}
@@ -100,6 +126,7 @@ export default function AdminLogin() {
               >
                 {error && <Alert variant="danger">{error}</Alert>}
 
+                {/* Username */}
                 <Form.Group className="mb-3" controlId="username">
                   <Form.Label>Username</Form.Label>
                   <Form.Control
@@ -112,6 +139,7 @@ export default function AdminLogin() {
                   />
                 </Form.Group>
 
+                {/* Password */}
                 <Form.Group className="mb-3" controlId="password">
                   <Form.Label>Password</Form.Label>
                   <InputGroup>
@@ -132,6 +160,7 @@ export default function AdminLogin() {
                   </InputGroup>
                 </Form.Group>
 
+                {/* Submit */}
                 <Button
                   variant="success"
                   type="submit"

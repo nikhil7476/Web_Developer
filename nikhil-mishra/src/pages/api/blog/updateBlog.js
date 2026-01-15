@@ -4,21 +4,27 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-// Disable Next.js body parser (required for FormData)
+/* =====================
+   Next.js API Config
+====================== */
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: false, // required for FormData
   },
 };
 
-// Upload directory
+/* =====================
+   Upload Directory Setup
+====================== */
 const uploadDir = path.join(process.cwd(), "public/uploads");
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Multer config
+/* =====================
+   Multer Configuration
+====================== */
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadDir);
@@ -31,7 +37,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Convert multer to promise-based middleware
+/* =====================
+   Middleware Runner
+====================== */
 function runMiddleware(req, res, fn) {
   return new Promise((resolve, reject) => {
     fn(req, res, (result) => {
@@ -41,7 +49,13 @@ function runMiddleware(req, res, fn) {
   });
 }
 
+/* =====================
+   Update Blog Handler
+====================== */
 export default async function handler(req, res) {
+  /* =====================
+     Method Validation
+  ====================== */
   if (req.method !== "PUT") {
     return res.status(405).json({
       success: false,
@@ -49,14 +63,22 @@ export default async function handler(req, res) {
     });
   }
 
+  /* =====================
+     Database Connection
+  ====================== */
   await connectDB();
 
   try {
-    // Run multer middleware for file upload
+    /* =====================
+       File Upload Middleware
+    ====================== */
     await runMiddleware(req, res, upload.single("image"));
 
     const body = req.body;
 
+    /* =====================
+       Required Validation
+    ====================== */
     if (!body.slug) {
       return res.status(400).json({
         success: false,
@@ -64,8 +86,10 @@ export default async function handler(req, res) {
       });
     }
 
-    // Parse tags array if provided
-    let tags = undefined;
+    /* =====================
+       Parse Tags
+    ====================== */
+    let tags;
     if (body.tag) {
       try {
         tags = JSON.parse(body.tag);
@@ -74,7 +98,9 @@ export default async function handler(req, res) {
       }
     }
 
-    // Build update object dynamically
+    /* =====================
+       Build Update Payload
+    ====================== */
     const updateFields = {
       ...(body.author && { author: body.author }),
       ...(body.title && { title: body.title }),
@@ -85,11 +111,13 @@ export default async function handler(req, res) {
       ...(body.content && { content: body.content }),
     };
 
-    // If new image uploaded
     if (req.file) {
       updateFields.image = `/uploads/${req.file.filename}`;
     }
 
+    /* =====================
+       Update Blog
+    ====================== */
     const updatedBlog = await Blog.findOneAndUpdate(
       { slug: body.slug },
       updateFields,
@@ -103,18 +131,21 @@ export default async function handler(req, res) {
       });
     }
 
+    /* =====================
+       Success Response
+    ====================== */
     return res.status(200).json({
       success: true,
       message: "Blog updated successfully",
       data: updatedBlog,
     });
-  } catch (err) {
-    console.error("Error updating blog:", err);
+  } catch (error) {
+    console.error("Error updating blog:", error);
 
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: err.message,
+      error: error.message,
     });
   }
 }

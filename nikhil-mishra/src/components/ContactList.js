@@ -2,16 +2,23 @@ import { useEffect, useState } from "react";
 import { Container, Table } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 
+/* =====================
+   Contact List Component
+====================== */
 export default function ContactList() {
+  /* =====================
+     State
+  ====================== */
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  /* =====================
+     Fetch Contacts
+  ====================== */
   useEffect(() => {
     fetch("/api/contacts/getContact")
       .then((res) => res.json())
       .then((data) => {
-        console.log("API Response:", data);
-
         if (Array.isArray(data)) {
           setContacts(data);
         } else if (data.success && Array.isArray(data.data)) {
@@ -22,13 +29,15 @@ export default function ContactList() {
 
         setLoading(false);
       })
-      .catch((err) => {
-        console.error("Error fetching contact data:", err);
+      .catch((error) => {
+        console.error("Error fetching contact data:", error);
         setLoading(false);
       });
   }, []);
 
-  // Function to delete contact
+  /* =====================
+     Delete Contact
+  ====================== */
   const handleDelete = async (email) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this contact?"
@@ -39,11 +48,12 @@ export default function ContactList() {
       const res = await fetch(`/api/contacts/deleteContact?email=${email}`, {
         method: "DELETE",
       });
+
       const data = await res.json();
 
       if (data.success) {
-        setContacts((prevContacts) =>
-          prevContacts.filter((contact) => contact.email !== email)
+        setContacts((prev) =>
+          prev.filter((contact) => contact.email !== email)
         );
         alert("Contact deleted successfully!");
       } else {
@@ -55,6 +65,9 @@ export default function ContactList() {
     }
   };
 
+  /* =====================
+     Render
+  ====================== */
   return (
     <Container>
       {loading ? (
@@ -73,6 +86,7 @@ export default function ContactList() {
               <th>Action</th>
             </tr>
           </thead>
+
           <tbody>
             {contacts.length > 0 ? (
               contacts.map((contact, index) => (
@@ -94,7 +108,7 @@ export default function ContactList() {
               ))
             ) : (
               <tr>
-                <td colSpan="12" className="text-center">
+                <td colSpan="8" className="text-center">
                   No contacts found
                 </td>
               </tr>

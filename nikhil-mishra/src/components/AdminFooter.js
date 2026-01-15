@@ -1,9 +1,15 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
+/* =====================
+   Footer Component
+====================== */
 function Footer() {
   return (
     <>
+      {/* =====================
+          Footer Section
+      ====================== */}
       <section className="p-2 mt-3" style={{ background: "#212529" }}>
         <Container>
           <Row>

@@ -3,16 +3,27 @@ import { Form, Button } from "react-bootstrap";
 import { IoSend } from "react-icons/io5";
 import { toast } from "react-toastify";
 
+/* =====================
+   Newsletter Form
+====================== */
 const NewsletterForm = () => {
+  /* =====================
+     State
+  ====================== */
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Email Validation
-  const validateEmail = (email) => {
+  /* =====================
+     Validation Helper
+  ====================== */
+  const validateEmail = (value) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
+    return regex.test(value);
   };
 
+  /* =====================
+     Submit Handler
+  ====================== */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -50,6 +61,9 @@ const NewsletterForm = () => {
     }
   };
 
+  /* =====================
+     Render
+  ====================== */
   return (
     <>
       <Form onSubmit={handleSubmit} className="newsletterForm">
@@ -63,7 +77,7 @@ const NewsletterForm = () => {
           />
         </Form.Group>
 
-        <Button type="submit" disabled={loading} className="ctaBtn ">
+        <Button type="submit" disabled={loading} className="ctaBtn">
           {loading ? "Subscribing..." : <IoSend />}
         </Button>
       </Form>

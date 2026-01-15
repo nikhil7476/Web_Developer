@@ -1,30 +1,38 @@
-import { Container, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { Container, Table } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 
+/* =====================
+   Newsletter List Component
+====================== */
 export default function NewsletterList() {
+  /* =====================
+     State
+  ====================== */
   const [subscribers, setSubscribers] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  /* =====================
+     Fetch Subscribers
+  ====================== */
   useEffect(() => {
     fetch("/api/newsletter/getSubscriber")
-      .then((res) => res.text())
+      .then((res) => res.json())
       .then((data) => {
-        console.log("Raw API Response:", data);
-        return JSON.parse(data);
-      })
-      .then((json) => {
-        if (json.success) {
-          setSubscribers(json.data);
+        if (data.success) {
+          setSubscribers(data.data);
         }
         setLoading(false);
       })
-      .catch((err) => {
-        console.error("Error fetching subscribers:", err);
+      .catch((error) => {
+        console.error("Error fetching subscribers:", error);
         setLoading(false);
       });
   }, []);
 
+  /* =====================
+     Delete Subscriber
+  ====================== */
   const handleDelete = async (email) => {
     if (!window.confirm("Are you sure you want to unsubscribe this email?"))
       return;
@@ -51,6 +59,9 @@ export default function NewsletterList() {
     }
   };
 
+  /* =====================
+     Render
+  ====================== */
   return (
     <Container>
       {loading ? (
@@ -65,6 +76,7 @@ export default function NewsletterList() {
               <th>Action</th>
             </tr>
           </thead>
+
           <tbody>
             {subscribers.length > 0 ? (
               subscribers.map((subscriber, index) => (
@@ -82,7 +94,7 @@ export default function NewsletterList() {
               ))
             ) : (
               <tr>
-                <td colSpan="3" className="text-center">
+                <td colSpan="4" className="text-center">
                   No subscribers found
                 </td>
               </tr>

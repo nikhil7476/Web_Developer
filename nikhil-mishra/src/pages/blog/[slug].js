@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { Container, Badge } from "react-bootstrap";
 
+/* =====================
+   Server-Side Data Fetch
+====================== */
 export async function getServerSideProps({ params }) {
   try {
     const res = await fetch(
@@ -9,43 +12,57 @@ export async function getServerSideProps({ params }) {
 
     const data = await res.json();
 
-    // If blog not found
     if (!data.success || !data.data) {
       return { notFound: true };
     }
 
     return {
-      props: { blog: data.data }, // a single blog object
+      props: {
+        blog: data.data,
+      },
     };
   } catch (error) {
     return { notFound: true };
   }
 }
 
+/* =====================
+   Single Blog Page
+====================== */
 export default function SingleBlog({ blog }) {
-  if (!blog) return <p className="text-center mt-5">Blog not found</p>;
+  if (!blog) {
+    return <p className="text-center mt-5">Blog not found</p>;
+  }
 
   return (
     <Container className="py-5" style={{ maxWidth: "900px" }}>
-      {/* Title */}
+      {/* =====================
+          Title
+      ====================== */}
       <h1 className="fw-bold">{blog.title}</h1>
 
-      {/* Meta info */}
+      {/* =====================
+          Meta Information
+      ====================== */}
       <p className="text-muted" style={{ fontSize: "15px" }}>
         {new Date(blog.createdAt).toLocaleDateString()} • Written by{" "}
         {blog.author}
       </p>
 
-      {/* Tags */}
+      {/* =====================
+          Tags
+      ====================== */}
       <div className="mb-3">
-        {(blog.tag || []).map((t) => (
-          <Badge bg="dark" className="me-2" key={t}>
-            {t}
+        {(blog.tag || []).map((tag) => (
+          <Badge bg="dark" className="me-2" key={tag}>
+            {tag}
           </Badge>
         ))}
       </div>
 
-      {/* Image */}
+      {/* =====================
+          Featured Image
+      ====================== */}
       {blog.image && (
         <div className="text-center mb-4">
           <Image
@@ -63,7 +80,9 @@ export default function SingleBlog({ blog }) {
         </div>
       )}
 
-      {/* Quote */}
+      {/* =====================
+          Quote
+      ====================== */}
       {blog.quote && (
         <blockquote
           className="px-3 py-2"
@@ -77,12 +96,14 @@ export default function SingleBlog({ blog }) {
         </blockquote>
       )}
 
-      {/* Content */}
+      {/* =====================
+          Content
+      ====================== */}
       <div
         className="mt-4"
         style={{ fontSize: "16px", lineHeight: "1.5" }}
         dangerouslySetInnerHTML={{ __html: blog.content }}
-      ></div>
+      />
     </Container>
   );
 }

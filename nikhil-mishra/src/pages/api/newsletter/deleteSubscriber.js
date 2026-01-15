@@ -1,7 +1,13 @@
 import connectDB from "@/lib/mongodb";
 import Subscriber from "@/models/Subscriber";
 
+/* =====================
+   Unsubscribe Handler
+====================== */
 export default async function handler(req, res) {
+  /* =====================
+     Method Validation
+  ====================== */
   if (req.method !== "DELETE") {
     return res.status(405).json({
       success: false,
@@ -9,6 +15,9 @@ export default async function handler(req, res) {
     });
   }
 
+  /* =====================
+     Database Connection
+  ====================== */
   try {
     await connectDB();
   } catch (error) {
@@ -19,8 +28,14 @@ export default async function handler(req, res) {
     });
   }
 
+  /* =====================
+     Request Payload
+  ====================== */
   const { email } = req.body;
 
+  /* =====================
+     Email Validation
+  ====================== */
   if (!email || !email.includes("@")) {
     return res.status(400).json({
       success: false,
@@ -29,6 +44,9 @@ export default async function handler(req, res) {
   }
 
   try {
+    /* =====================
+       Delete Subscriber
+    ====================== */
     const deletedSubscriber = await Subscriber.findOneAndDelete({ email });
 
     if (!deletedSubscriber) {
@@ -38,6 +56,9 @@ export default async function handler(req, res) {
       });
     }
 
+    /* =====================
+       Success Response
+    ====================== */
     return res.status(200).json({
       success: true,
       message: "Email unsubscribed successfully",

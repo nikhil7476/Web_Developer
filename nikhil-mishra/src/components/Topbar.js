@@ -2,13 +2,26 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { FiMenu } from "react-icons/fi";
 import { BsArrowsFullscreen, BsFullscreenExit } from "react-icons/bs";
+
 import { useSidebar } from "@/components/SidebarContext";
 
+/* =====================
+   Admin Topbar Component
+====================== */
 export default function Topbar({ onLogout }) {
+  /* =====================
+     Sidebar Context
+  ====================== */
   const { sidebarOpen, setSidebarOpen } = useSidebar();
+
+  /* =====================
+     State
+  ====================== */
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Fullscreen toggle
+  /* =====================
+     Fullscreen Toggle
+  ====================== */
   const handleFullscreenToggle = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
@@ -19,8 +32,14 @@ export default function Topbar({ onLogout }) {
     }
   };
 
+  /* =====================
+     Render
+  ====================== */
   return (
     <header className="adminNavbar fixed-top">
+      {/* =====================
+          Left Section
+      ====================== */}
       <div className="left">
         <FiMenu
           size={26}
@@ -30,8 +49,11 @@ export default function Topbar({ onLogout }) {
         <h2 className="ms-2">Admin Dashboard</h2>
       </div>
 
+      {/* =====================
+          Right Section
+      ====================== */}
       <div>
-        {/* Fullscreen */}
+        {/* Fullscreen Toggle */}
         <Button
           variant="light"
           onClick={handleFullscreenToggle}
@@ -44,6 +66,7 @@ export default function Topbar({ onLogout }) {
           )}
         </Button>
 
+        {/* Logout */}
         <Button size="md" variant="danger" onClick={onLogout}>
           Logout
         </Button>

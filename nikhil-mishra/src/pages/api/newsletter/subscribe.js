@@ -1,7 +1,13 @@
 import connectDB from "@/lib/mongodb";
 import Subscriber from "@/models/Subscriber";
 
+/* =====================
+   Subscribe Handler
+====================== */
 export default async function handler(req, res) {
+  /* =====================
+     Method Validation
+  ====================== */
   if (req.method !== "POST") {
     return res.status(405).json({
       success: false,
@@ -9,6 +15,9 @@ export default async function handler(req, res) {
     });
   }
 
+  /* =====================
+     Database Connection
+  ====================== */
   try {
     await connectDB();
   } catch (error) {
@@ -19,8 +28,14 @@ export default async function handler(req, res) {
     });
   }
 
+  /* =====================
+     Request Payload
+  ====================== */
   const { email } = req.body;
 
+  /* =====================
+     Email Validation
+  ====================== */
   if (!email || !email.includes("@")) {
     return res.status(400).json({
       success: false,
@@ -29,6 +44,9 @@ export default async function handler(req, res) {
   }
 
   try {
+    /* =====================
+       Check Existing Subscriber
+    ====================== */
     const existingSubscriber = await Subscriber.findOne({ email });
 
     if (existingSubscriber) {
@@ -38,8 +56,14 @@ export default async function handler(req, res) {
       });
     }
 
+    /* =====================
+       Create Subscriber
+    ====================== */
     const newSubscriber = await Subscriber.create({ email });
 
+    /* =====================
+       Success Response
+    ====================== */
     return res.status(201).json({
       success: true,
       message: "Email subscribed successfully!",
