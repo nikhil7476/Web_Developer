@@ -266,6 +266,7 @@ export default function ProjectList() {
                               key={i}
                               src={img}
                               alt={`Tech ${i}`}
+                              title={`Tech ${i}`}
                               width={80}
                               height={80}
                               style={{ objectFit: "cover", marginRight: 4 }}
@@ -278,6 +279,7 @@ export default function ProjectList() {
                               key={i}
                               src={img}
                               alt={`Gallery ${i}`}
+                              title={`Gallery ${i}`}
                               width={80}
                               height={80}
                               style={{ objectFit: "cover", marginRight: 4 }}
@@ -288,7 +290,8 @@ export default function ProjectList() {
                           {project.featuredImage && (
                             <Image
                               src={project.featuredImage}
-                              alt={`Featured ${project.slug}`}
+                              alt={`Featured ${project.title}`}
+                              title={`Featured ${project.title}`}
                               width={80}
                               height={80}
                               style={{ objectFit: "cover" }}
@@ -299,7 +302,8 @@ export default function ProjectList() {
                           {project.bannerImage && (
                             <Image
                               src={project.bannerImage}
-                              alt={project.slug}
+                              alt={`${project.title} Banner Image`}
+                              title={`${project.title} Banner Image`}
                               width={80}
                               height={80}
                               style={{ objectFit: "cover" }}
@@ -310,7 +314,8 @@ export default function ProjectList() {
                           {project.problemImage && (
                             <Image
                               src={project.problemImage}
-                              alt={`Problem ${project.slug}`}
+                              alt={`${project.title} Problem Image`}
+                              title={`${project.title} Problem Image`}
                               width={80}
                               height={80}
                               style={{ objectFit: "cover" }}
@@ -323,7 +328,8 @@ export default function ProjectList() {
                           {project.solutionImage && (
                             <Image
                               src={project.solutionImage}
-                              alt={`Solution ${project.slug}`}
+                              alt={`${project.title} Solution Image`}
+                              title={`${project.title} Solution Image`}
                               width={80}
                               height={80}
                               style={{ objectFit: "cover" }}
